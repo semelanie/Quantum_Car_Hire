@@ -91,6 +91,12 @@
     font-family:'Inter',sans-serif;
   }
   .mode-btn.active{background:var(--gold); border-color:var(--gold); color:var(--ocean);}
+  .service-tabs{display:flex; gap:6px; margin-bottom:14px; background:rgba(255,255,255,0.08); padding:4px; border-radius:var(--radius-sm);}
+  .service-tab{
+    flex:1; padding:8px 6px; border-radius:6px; border:none; background:transparent; color:#B9C6D9;
+    font-size:0.72rem; font-weight:600; cursor:pointer; transition:background .2s, color .2s; font-family:'Inter',sans-serif;
+  }
+  .service-tab.active{background:#fff; color:var(--ocean);}
   #mahe-map{width:100%; height:260px; border-radius:var(--radius-sm); overflow:hidden; background:#dfe6ee;}
   .leaflet-popup-content-wrapper{border-radius:8px; font-family:'Inter',sans-serif; font-size:0.82rem;}
   .leaflet-popup-content{margin:8px 10px;}
@@ -204,10 +210,14 @@
   form.contact-form input:focus, form.contact-form textarea:focus{border-color:var(--lagoon);}
   form.contact-form textarea{min-height:88px; resize:vertical;}
 
-  footer{background:var(--ocean); color:#B9C6D9; padding:28px 0;}
-  .footer-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; font-size:0.8rem;}
-  footer a{color:#B9C6D9;}
-  footer a:hover{color:var(--gold);}
+  footer{background:var(--ocean); color:#B9C6D9; padding:44px 0 24px;}
+  .footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:28px; padding-bottom:30px;}
+  @media (max-width:760px){ .footer-grid{grid-template-columns:1fr 1fr; row-gap:28px;} }
+  @media (max-width:480px){ .footer-grid{grid-template-columns:1fr;} }
+  .footer-col h4{font-family:'JetBrains Mono', monospace; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; color:#8FB0D6; margin-bottom:14px; font-weight:600;}
+  .footer-col a{display:block; margin-bottom:9px; font-size:0.85rem; color:#B9C6D9;}
+  .footer-col a:hover{color:var(--gold);}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,0.12); padding-top:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; font-size:0.78rem; color:#8FB0D6;}
   .social-icons{display:flex; gap:14px; align-items:center;}
   .social-icons a{display:flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.08); transition:background .2s, color .2s;}
   .social-icons a svg{width:16px; height:16px;}
@@ -265,13 +275,10 @@
       <div class="route-card">
         <span class="title">Pickup & drop-off</span>
         <p class="hint">Tap a pin, or anywhere else on Mahé</p>
-        <div class="field" style="margin-bottom:12px;">
-          <label for="serviceType" style="color:#B9C6D9;">Type of service</label>
-          <select id="serviceType">
-            <option value="rental">Car Rentals</option>
-            <option value="transfer">Transfers</option>
-            <option value="tour">Tours</option>
-          </select>
+        <div class="service-tabs">
+          <button class="service-tab active" data-service="rental" type="button">Car Rentals</button>
+          <button class="service-tab" data-service="transfer" type="button">Transfers</button>
+          <button class="service-tab" data-service="tour" type="button">Tours</button>
         </div>
         <div class="map-modes">
           <button class="mode-btn active" id="modePickup" type="button">Set pickup</button>
@@ -317,6 +324,14 @@
           <div class="field" data-show="rental transfer tour">
             <label for="other-address">Other address (if selected)</label>
             <input type="text" id="other-address" placeholder="e.g. villa or guesthouse name">
+          </div>
+          <div class="field" data-show="rental transfer tour">
+            <label for="serviceTypeField">Type of service</label>
+            <select id="serviceTypeField">
+              <option value="rental">Car Rentals</option>
+              <option value="transfer">Transfers</option>
+              <option value="tour">Tours</option>
+            </select>
           </div>
           <button class="btn btn-primary" type="button" onclick="alert('This is a demo booking form — connect it to your reservation system to go live.')">Check availability</button>
         </div>
@@ -631,30 +646,47 @@
 
 <footer>
   <div class="wrap">
-    <div class="footer-nav" style="display:flex; gap:24px; justify-content:center; margin-bottom:18px; font-size:0.82rem; font-weight:500; flex-wrap:wrap;">
-      <a href="#fleet">Fleet & Rates</a>
-      <a href="#info">How it Works</a>
-      <a href="#faq">FAQ</a>
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <h4 style="color:#fff; font-family:'Space Grotesk',sans-serif; font-size:1rem; letter-spacing:0; text-transform:none; margin-bottom:8px;">Quantum Car Hire</h4>
+        <p style="font-size:0.84rem; color:#8FB0D6; max-width:30ch; line-height:1.6;">Rentals, transfers & tours across Mahé. Based in Perseverance, open 24/7.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Site</h4>
+        <a href="#fleet">Fleet & Rates</a>
+        <a href="#info">How it Works</a>
+        <a href="#faq">FAQ</a>
+        <a href="#" id="openPrivacyModal">Data Protection</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="https://wa.me/2482599333" target="_blank" rel="noopener">WhatsApp: +248 2599 333</a>
+        <a href="mailto:hello@quantumcarhire.sc">hello@quantumcarhire.sc</a>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <div class="social-icons">
+          <a href="https://facebook.com/quantumcarhire" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06C2 17.06 5.66 21.2 10.44 21.95V14.9H7.9v-2.84h2.54v-2.17c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.84h2.77l-.44 2.84h-2.33v7.05C18.34 21.2 22 17.06 22 12.06z"/></svg>
+          </a>
+          <a href="https://m.me/quantumcarhire" target="_blank" rel="noopener" aria-label="Messenger">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.15 2 11.28c0 2.91 1.44 5.51 3.7 7.21V22l3.38-1.86c.9.25 1.87.38 2.92.38 5.52 0 10-4.15 10-9.24C22 6.15 17.52 2 12 2zm1.02 12.44-2.55-2.72-4.98 2.72 5.48-5.82 2.61 2.72 4.92-2.72-5.48 5.82z"/></svg>
+          </a>
+          <a href="mailto:hello@quantumcarhire.sc" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="footer-row">
-    <span>© 2026 Quantum Car Hire, Perseverance, Mahé.</span>
-    <div class="social-icons">
-      <a href="https://facebook.com/quantumcarhire" target="_blank" rel="noopener" aria-label="Facebook">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06C2 17.06 5.66 21.2 10.44 21.95V14.9H7.9v-2.84h2.54v-2.17c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.84h2.77l-.44 2.84h-2.33v7.05C18.34 21.2 22 17.06 22 12.06z"/></svg>
-      </a>
-      <a href="https://m.me/quantumcarhire" target="_blank" rel="noopener" aria-label="Messenger">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.15 2 11.28c0 2.91 1.44 5.51 3.7 7.21V22l3.38-1.86c.9.25 1.87.38 2.92.38 5.52 0 10-4.15 10-9.24C22 6.15 17.52 2 12 2zm1.02 12.44-2.55-2.72-4.98 2.72 5.48-5.82 2.61 2.72 4.92-2.72-5.48 5.82z"/></svg>
-      </a>
-      <a href="mailto:hello@quantumcarhire.sc" aria-label="Email">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
-      </a>
+    <div class="footer-bottom">
+      <span>© 2026 Quantum Car Hire, Perseverance, Mahé.</span>
+      <span>Open 24/7</span>
     </div>
-    <span><a href="#" id="openPrivacyModal">Data Protection</a> · <a href="https://wa.me/2482599333" target="_blank" rel="noopener">+248 2599 333</a> · <a href="mailto:hello@quantumcarhire.sc">hello@quantumcarhire.sc</a></span>
-  </div>
   </div>
 </footer>
 
 <script>
+
   // Vehicle detail modal
   const vehicleData = {
     swift: {
@@ -798,8 +830,9 @@
     });
   });
 
-  // Type of service: Car Rentals / Transfers / Tours
-  const serviceTypeSelect = document.getElementById('serviceType');
+  // Type of service: Car Rentals / Transfers / Tours (buttons near map + dropdown in booking form, kept in sync)
+  const serviceTabs = document.querySelectorAll('.service-tab');
+  const serviceTypeField = document.getElementById('serviceTypeField');
   const bookingFields = document.querySelectorAll('.booking-grid .field[data-show]');
   const pickupDateLabel = document.getElementById('pickupDateLabel');
   let activeServiceType = 'rental';
@@ -812,9 +845,17 @@
     if(pickupDateLabel){
       pickupDateLabel.textContent = activeServiceType === 'rental' ? 'Pick-up date' : 'Date';
     }
+    serviceTabs.forEach(t => t.classList.toggle('active', t.dataset.service === activeServiceType));
+    serviceTypeField.value = activeServiceType;
   }
-  serviceTypeSelect.addEventListener('change', () => {
-    activeServiceType = serviceTypeSelect.value;
+  serviceTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      activeServiceType = tab.dataset.service;
+      applyServiceVisibility();
+    });
+  });
+  serviceTypeField.addEventListener('change', () => {
+    activeServiceType = serviceTypeField.value;
     applyServiceVisibility();
   });
   applyServiceVisibility();
