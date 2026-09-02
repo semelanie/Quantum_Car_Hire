@@ -15,11 +15,34 @@ function markerStyle(state: MapMode | null): L.CircleMarkerOptions {
   return { radius: 8, weight: 2, color: '#fff', fillColor: '#0A2350', fillOpacity: 1 };
 }
 
+/**
+ * Turn a tapped map point into a short, human-readable address (e.g. "Anse
+ * Royale road, Anse Royale") via OpenStreetMap's free Nominatim reverse
+ * geocoder — no API key needed. This is a client-side demo integration:
+ * Nominatim's usage policy caps this at ~1 request/second and asks that
+ * production traffic either self-host Nominatim or use a paid geocoder
+ * instead (see https://operations.osmfoundation.org/policies/nominatim/).
+ * Falls back to the raw coordinates if the lookup fails or is empty.
+ */
+async function reverseGeocode(lat: number, lng: number, signal: AbortSignal): Promise<string | null> {
+  const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
+  const res = await fetch(url, { signal, headers: { Accept: 'application/json' } });
+  if (!res.ok) return null;
+  const data: { address?: Record<string, string>; display_name?: string } = await res.json();
+  const a = data.address ?? {};
+  const primary = a.road || a.pedestrian || a.footway || a.neighbourhood || a.suburb || a.hamlet;
+  const area = a.suburb || a.village || a.town || a.city_district || a.city;
+  const parts = [primary, area && area !== primary ? area : null].filter(Boolean);
+  if (parts.length > 0) return parts.join(', ');
+  return data.display_name ? data.display_name.split(',').slice(0, 2).join(',').trim() : null;
+}
+
 export default function MaheMap({ mode, picked, onSelectLocation }: MaheMapProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const stopMarkersRef = useRef<Record<string, L.CircleMarker>>({});
   const customMarkerRef = useRef<L.CircleMarker | null>(null);
+  const geocodeAbortRef = useRef<AbortController | null>(null);
 
   // Keep the latest mode/callback available inside Leaflet's event handlers
   // (which are only attached once) without rebuilding the map every render.
@@ -71,17 +94,35 @@ export default function MaheMap({ mode, picked, onSelectLocation }: MaheMapProps
 
     map.on('click', (e: L.LeafletMouseEvent) => {
       const { lat, lng } = e.latlng;
-      const label = `Custom point (${lat.toFixed(3)}, ${lng.toFixed(3)})`;
+      const fallbackLabel = `Pinned location (${lat.toFixed(3)}, ${lng.toFixed(3)})`;
 
       if (customMarkerRef.current) map.removeLayer(customMarkerRef.current);
       const marker = L.circleMarker([lat, lng], markerStyle(modeRef.current)).addTo(map);
-      marker.bindTooltip(label, { direction: 'top', offset: [0, -8] }).openTooltip();
+      marker.bindTooltip('Locating address…', { direction: 'top', offset: [0, -8] }).openTooltip();
       customMarkerRef.current = marker;
 
-      onSelectLocationRef.current(label, lat, lng, true);
+      // Show something immediately (coordinates), then swap in a real
+      // street/area name once the reverse-geocode lookup resolves, so the
+      // pickup/drop-off field never shows raw lat/lng for long.
+      onSelectLocationRef.current(fallbackLabel, lat, lng, true);
+
+      geocodeAbortRef.current?.abort();
+      const controller = new AbortController();
+      geocodeAbortRef.current = controller;
+      reverseGeocode(lat, lng, controller.signal)
+        .then((address) => {
+          if (controller.signal.aborted || !address) return;
+          marker.setTooltipContent(address);
+          onSelectLocationRef.current(address, lat, lng, true);
+        })
+        .catch(() => {
+          // Aborted (superseded by a newer tap) or the lookup failed — the
+          // coordinate fallback set above already covers this case.
+        });
     });
 
     return () => {
+      geocodeAbortRef.current?.abort();
       map.remove();
       mapRef.current = null;
       stopMarkersRef.current = {};

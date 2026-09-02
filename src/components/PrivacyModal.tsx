@@ -36,8 +36,8 @@ const PRIVACY_ROWS: PrivacyRow[] = [
     description: (
       <>
         Email{' '}
-        <a href="mailto:hello@quantumcarhire.sc" style={{ color: 'var(--ocean)', fontWeight: 600 }}>
-          hello@quantumcarhire.sc
+        <a href="mailto:info@quantumcarhire.com" style={{ color: 'var(--ocean)', fontWeight: 600 }}>
+          info@quantumcarhire.com
         </a>{' '}
         or message us on WhatsApp at{' '}
         <a

@@ -38,7 +38,7 @@ export default function Footer({ onOpenPrivacyModal }: FooterProps) {
             <a href="https://wa.me/2482599333" target="_blank" rel="noopener noreferrer">
               WhatsApp: +248 2599 333
             </a>
-            <a href="mailto:hello@quantumcarhire.sc">hello@quantumcarhire.sc</a>
+            <a href="mailto:info@quantumcarhire.com">info@quantumcarhire.com</a>
           </div>
           <div className="footer-col">
             <h4>Follow</h4>
@@ -49,7 +49,7 @@ export default function Footer({ onOpenPrivacyModal }: FooterProps) {
               <a href="https://m.me/quantumcarhire" target="_blank" rel="noopener noreferrer" aria-label="Messenger">
                 <MessengerIcon />
               </a>
-              <a href="mailto:hello@quantumcarhire.sc" aria-label="Email">
+              <a href="mailto:info@quantumcarhire.com" aria-label="Email">
                 <EmailIcon />
               </a>
             </div>

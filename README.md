@@ -80,6 +80,14 @@ with `/* /index.html 200`, or Vercel's `rewrites` in `vercel.json`).
 - **Date & time:** Pick-up date/time show for all three service types (Car Rentals, Transfers,
   Tours); Drop-off date is rental-only (a transfer or tour is a one-way trip), but Drop-off time
   shows for all three, in case you want an estimated drop-off/return time either way.
+- **Tapping a spot that isn't a named pin:** the field shows the raw coordinates for a moment
+  ("Pinned location (-4.681, 55.419)"), then automatically swaps in a real street/area name (e.g.
+  "Anse Royale road, Anse Royale") once a free reverse-geocoding lookup
+  ([OpenStreetMap Nominatim](https://nominatim.org/), no API key) resolves — so visitors never have
+  to read raw lat/lng. If the lookup fails (offline, rate-limited, etc.) the coordinates just stay
+  as shown. This is a client-side demo integration: Nominatim's usage policy caps free use at
+  roughly one request/second, so for a busier production site consider self-hosting Nominatim or
+  switching to a paid geocoder (see `reverseGeocode` in `src/components/MaheMap.tsx`).
 
 ## Notes on the conversion
 
@@ -88,3 +96,5 @@ with `/* /index.html 200`, or Vercel's `rewrites` in `vercel.json`).
 - The five images that were embedded as base64 data URIs in the original HTML have been extracted into real image files under `src/assets/` and are imported normally so Vite can optimize/hash them (until replaced through the admin panel, at which point they become data URLs, same as the original prototype).
 - The booking form's "Check availability" button still just shows a demo `alert()`, exactly like the original — wire it up to a real reservation system when ready.
 - The contact section's mailto form has been replaced with a WhatsApp-first call-to-action card (`ContactSection.tsx` / `.contact-cta` in `index.css`), since a real-time chat app is a faster and more reliable way for a car-hire business to actually receive a message than a `mailto:` form submission.
+- The favicon (`public/favicon.ico`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png`) is cropped from the "Q" + swoosh mark in `src/assets/logo.jpeg` — the full wordmark logo is too wide/detailed to read at browser-tab size, so only that portion was used. Regenerate it from a different crop if the brand mark changes.
+- The whole site (public pages and the admin panel) got a mobile-responsiveness pass: a `booking-grid` breakpoint below 480px so date/time fields never clip, the vehicle-modal feature list stacks label-over-description on narrow screens instead of squeezing into a ~90px column, the FAQ tabs shrink slightly below 380px so all three fit without relying on hidden horizontal scroll, and every form input (site + admin) is at least 16px so iOS Safari doesn't auto-zoom the page when a field is focused.

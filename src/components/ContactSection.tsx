@@ -22,7 +22,7 @@ export default function ContactSection() {
             </div>
             <div>
               <span className="label">Email</span>
-              <a href="mailto:hello@quantumcarhire.sc">hello@quantumcarhire.sc</a>
+              <a href="mailto:info@quantumcarhire.com">info@quantumcarhire.com</a>
             </div>
             <div>
               <span className="label">Hours</span>
@@ -44,8 +44,8 @@ export default function ContactSection() {
           </a>
           <p className="contact-cta-alt">
             Prefer email? Write to{' '}
-            <a href="mailto:hello@quantumcarhire.sc" style={{ color: 'var(--ocean)', fontWeight: 600 }}>
-              hello@quantumcarhire.sc
+            <a href="mailto:info@quantumcarhire.com" style={{ color: 'var(--ocean)', fontWeight: 600 }}>
+              info@quantumcarhire.com
             </a>
           </p>
         </div>

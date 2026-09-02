@@ -51,7 +51,8 @@
   border: 1px solid var(--sand-line);
   border-radius: var(--radius-sm);
   font-family: 'Inter', sans-serif;
-  font-size: 0.92rem;
+  /* 1rem (16px), not 0.92rem: keeps iOS Safari from zooming the page in on focus. */
+  font-size: 1rem;
   margin-bottom: 12px;
 }
 .admin-gate-card input[type='password']:focus {
@@ -286,7 +287,8 @@
   border: 1px solid var(--sand-line);
   border-radius: var(--radius-sm);
   font-family: 'Inter', sans-serif;
-  font-size: 0.88rem;
+  /* 1rem (16px), not 0.88rem: keeps iOS Safari from zooming the page in on focus. */
+  font-size: 1rem;
   color: var(--granite);
 }
 .admin-fields-col input:focus {
@@ -335,6 +337,11 @@
 @media (max-width: 560px) {
   .admin-feature-row {
     grid-template-columns: 1fr;
+  }
+  .admin-remove-btn {
+    width: 34px;
+    height: 34px;
+    justify-self: start;
   }
 }
 .admin-remove-btn {
