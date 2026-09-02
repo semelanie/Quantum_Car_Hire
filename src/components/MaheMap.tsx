@@ -125,6 +125,10 @@ export default function MaheMap({ mode, picked, onSelectLocation }: MaheMapProps
         // otherwise immediately overwrite this pick with a "custom point" at
         // the same spot. Stop it here so picking a named pin sticks.
         L.DomEvent.stopPropagation(e);
+        // Also cancel any reverse-geocode lookup still in flight from an
+        // earlier custom tap — otherwise it can resolve after this named
+        // pick and silently overwrite it back to "Other address".
+        geocodeAbortRef.current?.abort();
         onSelectLocationRef.current(stop.name, stop.lat, stop.lng, false);
       });
       stopMarkersRef.current[stop.name] = marker;

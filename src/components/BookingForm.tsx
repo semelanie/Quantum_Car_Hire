@@ -25,6 +25,7 @@ interface BookingFormProps {
   onDropoffTimeChange: (value: string) => void;
   babySeat: boolean;
   onBabySeatChange: (value: boolean) => void;
+  onCheckAvailability: () => void;
 }
 
 function shows(allowed: ServiceType[], active: ServiceType) {
@@ -69,6 +70,7 @@ export default function BookingForm({
   onDropoffTimeChange,
   babySeat,
   onBabySeatChange,
+  onCheckAvailability,
 }: BookingFormProps) {
   const { vehicles } = useVehicles();
   const vehicleOptions = ['Any', ...vehicles.map((v) => v.name)];
@@ -156,11 +158,7 @@ export default function BookingForm({
           </select>
         </div>
 
-        <button
-          className="btn btn-primary"
-          type="button"
-          onClick={() => alert('This is a demo booking form — connect it to your reservation system to go live.')}
-        >
+        <button className="btn btn-primary" type="button" onClick={onCheckAvailability}>
           Check availability
         </button>
       </div>

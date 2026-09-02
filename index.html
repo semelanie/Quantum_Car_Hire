@@ -8,11 +8,83 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quantum Car Hire — Mahé, Seychelles</title>
+    <meta
+      name="description"
+      content="Self-drive car rentals, airport transfers and island tours in Mahé, Seychelles. A small, well-maintained fleet based in Perseverance — book online or message us on WhatsApp, open 24/7."
+    />
+    <meta name="theme-color" content="#0a2350" />
+    <link rel="canonical" href="https://www.quantumcarhire.com/" />
+
+    <!-- Open Graph (Facebook, WhatsApp, iMessage, Slack, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Quantum Car Hire" />
+    <meta property="og:url" content="https://www.quantumcarhire.com/" />
+    <meta property="og:title" content="Quantum Car Hire — Mahé, Seychelles" />
+    <meta
+      property="og:description"
+      content="Self-drive car rentals, airport transfers and island tours in Mahé, Seychelles. A small, well-maintained fleet based in Perseverance — book online or message us on WhatsApp, open 24/7."
+    />
+    <meta property="og:image" content="https://www.quantumcarhire.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter/X card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Quantum Car Hire — Mahé, Seychelles" />
+    <meta
+      name="twitter:description"
+      content="Self-drive car rentals, airport transfers and island tours in Mahé, Seychelles. Book online or message us on WhatsApp, open 24/7."
+    />
+    <meta name="twitter:image" content="https://www.quantumcarhire.com/og-image.jpg" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Structured data (schema.org) so search engines can show this as a
+         car rental business — hours, phone, area served — not just a page. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "AutoRental",
+        "name": "Quantum Car Hire",
+        "description": "Self-drive car rentals, airport transfers and island tours in Mahé, Seychelles.",
+        "url": "https://www.quantumcarhire.com/",
+        "logo": "https://www.quantumcarhire.com/apple-touch-icon.png",
+        "image": "https://www.quantumcarhire.com/og-image.jpg",
+        "telephone": "+248-2599-333",
+        "email": "info@quantumcarhire.com",
+        "priceRange": "SCR 550+",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Perseverance",
+          "addressLocality": "Mahé",
+          "addressCountry": "SC"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Mahé, Seychelles"
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        },
+        "sameAs": ["https://facebook.com/quantumcarhire"]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

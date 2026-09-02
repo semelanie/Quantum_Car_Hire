@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import RouteCard from './RouteCard';
 import BookingForm from './BookingForm';
+import BookingModal from './BookingModal';
 import { namedStops, mapCenter } from '../data/locations';
 import { OTHER_ADDRESS } from '../data/places';
 import { ClockIcon, CarIcon, TagIcon, WhatsAppIcon } from './Icons';
@@ -33,6 +34,7 @@ export default function Hero() {
   const [dropoffDate, setDropoffDate] = useState('');
   const [dropoffTime, setDropoffTime] = useState('');
   const [babySeat, setBabySeat] = useState(false);
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
 
   // Selecting a pickup/drop-off point on the map (either a named pin or a
   // custom tap) always drives the matching field below — pickupLoc when
@@ -75,6 +77,21 @@ export default function Hero() {
     setPicked((prev) => ({ ...prev, dropoff: value }));
     const match = namedStops.find((s) => s.name === value);
     setGoogleMapsUrl(mapsUrlFor(value, match?.lat, match?.lng));
+  }
+
+  // "Check availability" doesn't hit a real inventory system (there isn't
+  // one) — it just makes sure the trip is filled in, then opens the booking
+  // request form, which is what actually reaches the business (by email).
+  function handleCheckAvailability() {
+    if (!pickupDate) {
+      alert('Please choose a pick-up date first.');
+      return;
+    }
+    if (activeServiceType === 'rental' && !dropoffDate) {
+      alert('Please choose a drop-off date first.');
+      return;
+    }
+    setBookingModalOpen(true);
   }
 
   return (
@@ -151,8 +168,27 @@ export default function Hero() {
           onDropoffTimeChange={setDropoffTime}
           babySeat={babySeat}
           onBabySeatChange={setBabySeat}
+          onCheckAvailability={handleCheckAvailability}
         />
       </div>
+
+      <BookingModal
+        isOpen={bookingModalOpen}
+        onClose={() => setBookingModalOpen(false)}
+        trip={{
+          serviceType: activeServiceType,
+          pickupLoc,
+          dropoffLoc,
+          otherAddress,
+          carType,
+          passengers,
+          pickupDate,
+          pickupTime,
+          dropoffDate,
+          dropoffTime,
+          babySeat,
+        }}
+      />
     </section>
   );
 }
