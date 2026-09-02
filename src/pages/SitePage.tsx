@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Header from '../components/Header';
 import SloganBanner from '../components/SloganBanner';
 import Hero from '../components/Hero';
+import type { RequestedVehicle } from '../components/Hero';
 import Fleet from '../components/Fleet';
 import InfoSection from '../components/InfoSection';
 import FAQSection from '../components/FAQSection';
@@ -13,6 +14,16 @@ import PrivacyModal from '../components/PrivacyModal';
 export default function SitePage() {
   const [vehicleModalKey, setVehicleModalKey] = useState<string | null>(null);
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
+  const [requestedVehicle, setRequestedVehicle] = useState<RequestedVehicle | null>(null);
+
+  // "Book this car" from a Fleet card, a rate row, or the vehicle profile
+  // modal — close the modal (if any) and hand the vehicle down to Hero,
+  // which owns the booking form's actual state. The #book anchor on those
+  // links already handles scrolling there.
+  function handleBookVehicle(name: string) {
+    setVehicleModalKey(null);
+    setRequestedVehicle({ name, nonce: Date.now() });
+  }
 
   return (
     <>
@@ -20,14 +31,14 @@ export default function SitePage() {
       <SloganBanner />
 
       <main id="top">
-        <Hero />
-        <Fleet onSelectVehicle={setVehicleModalKey} />
+        <Hero requestedVehicle={requestedVehicle} />
+        <Fleet onSelectVehicle={setVehicleModalKey} onBookVehicle={handleBookVehicle} />
         <InfoSection />
         <FAQSection />
         <ContactSection />
       </main>
 
-      <VehicleModal vehicleKey={vehicleModalKey} onClose={() => setVehicleModalKey(null)} />
+      <VehicleModal vehicleKey={vehicleModalKey} onClose={() => setVehicleModalKey(null)} onBookVehicle={handleBookVehicle} />
       <PrivacyModal isOpen={privacyModalOpen} onClose={() => setPrivacyModalOpen(false)} />
 
       <Footer onOpenPrivacyModal={() => setPrivacyModalOpen(true)} />

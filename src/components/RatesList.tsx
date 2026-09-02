@@ -4,9 +4,10 @@ import type { Vehicle, VehicleKey } from '../types/vehicle';
 
 interface RatesListProps {
   vehicles: Vehicle[];
+  onBookVehicle: (name: string) => void;
 }
 
-export default function RatesList({ vehicles }: RatesListProps) {
+export default function RatesList({ vehicles, onBookVehicle }: RatesListProps) {
   const [openRows, setOpenRows] = useState<Set<VehicleKey>>(new Set());
 
   function toggleRow(key: VehicleKey) {
@@ -52,7 +53,9 @@ export default function RatesList({ vehicles }: RatesListProps) {
                   <span className="value">{vehicle.deposit}</span>
                 </div>
                 <div className="book-link">
-                  <a href="#book">Book this car →</a>
+                  <a href="#book" onClick={() => onBookVehicle(vehicle.name)}>
+                    Book this car →
+                  </a>
                 </div>
               </div>
             </div>

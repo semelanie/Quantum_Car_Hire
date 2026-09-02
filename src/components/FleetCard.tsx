@@ -3,9 +3,10 @@ import type { Vehicle } from '../types/vehicle';
 interface FleetCardProps {
   vehicle: Vehicle;
   onOpen: (key: string) => void;
+  onBookVehicle: (name: string) => void;
 }
 
-export default function FleetCard({ vehicle, onOpen }: FleetCardProps) {
+export default function FleetCard({ vehicle, onOpen, onBookVehicle }: FleetCardProps) {
   function handleClick(e: React.MouseEvent<HTMLDivElement>) {
     if ((e.target as HTMLElement).closest('a')) return; // let the Book link behave normally
     onOpen(vehicle.key);
@@ -37,7 +38,9 @@ export default function FleetCard({ vehicle, onOpen }: FleetCardProps) {
             {vehicle.dailyPrice}
             <small>/day</small>
           </span>
-          <a href="#book">Book →</a>
+          <a href="#book" onClick={() => onBookVehicle(vehicle.name)}>
+            Book →
+          </a>
         </div>
       </div>
     </div>

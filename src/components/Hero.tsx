@@ -7,6 +7,19 @@ import { OTHER_ADDRESS } from '../data/places';
 import { ClockIcon, CarIcon, TagIcon, WhatsAppIcon } from './Icons';
 import type { MapMode, PickedLocations, ServiceType } from '../types/location';
 
+export interface RequestedVehicle {
+  name: string;
+  /** Changes on every request, even for the same vehicle, so the effect below re-fires. */
+  nonce: number;
+}
+
+interface HeroProps {
+  /** Set when a "Book this car" link elsewhere on the page (Fleet card, rate
+   * row, or the vehicle profile modal) asks the booking form to switch to a
+   * specific vehicle and jump into rental mode. */
+  requestedVehicle: RequestedVehicle | null;
+}
+
 const DEFAULT_MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${mapCenter[0]},${mapCenter[1]}`;
 
 /** Google Maps link for a picked place: an exact pin if we know its coordinates, otherwise a text search. */
@@ -17,7 +30,7 @@ function mapsUrlFor(name: string, lat?: number, lng?: number) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${name}, Mahé, Seychelles`)}`;
 }
 
-export default function Hero() {
+export default function Hero({ requestedVehicle }: HeroProps) {
   const [activeServiceType, setActiveServiceType] = useState<ServiceType>('rental');
 
   const [mode, setMode] = useState<MapMode>('pickup');
@@ -35,6 +48,21 @@ export default function Hero() {
   const [dropoffTime, setDropoffTime] = useState('');
   const [babySeat, setBabySeat] = useState(false);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
+
+  // A "Book this car" link elsewhere on the page (Fleet card, rate row, or
+  // the vehicle profile modal) sets requestedVehicle — carry it into the
+  // booking form: switch to rental mode (vehicle choice only applies there)
+  // and select that vehicle. This adjusts state during render rather than in
+  // an effect (React's recommended pattern for "sync state to a changed
+  // prop") so a click doesn't cost an extra render.
+  const [lastRequestedVehicle, setLastRequestedVehicle] = useState(requestedVehicle);
+  if (requestedVehicle !== lastRequestedVehicle) {
+    setLastRequestedVehicle(requestedVehicle);
+    if (requestedVehicle) {
+      setActiveServiceType('rental');
+      setCarType(requestedVehicle.name);
+    }
+  }
 
   // Selecting a pickup/drop-off point on the map (either a named pin or a
   // custom tap) always drives the matching field below — pickupLoc when

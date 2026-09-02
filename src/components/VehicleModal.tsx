@@ -3,9 +3,10 @@ import { useVehicles } from '../context/VehiclesContext';
 interface VehicleModalProps {
   vehicleKey: string | null;
   onClose: () => void;
+  onBookVehicle: (name: string) => void;
 }
 
-export default function VehicleModal({ vehicleKey, onClose }: VehicleModalProps) {
+export default function VehicleModal({ vehicleKey, onClose, onBookVehicle }: VehicleModalProps) {
   const { vehicles } = useVehicles();
   const vehicle = vehicleKey ? vehicles.find((v) => v.key === vehicleKey) : undefined;
   const isOpen = Boolean(vehicle);
@@ -37,7 +38,14 @@ export default function VehicleModal({ vehicleKey, onClose }: VehicleModalProps)
           <span className="amount" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '1.3rem', color: 'var(--ocean)', fontWeight: 600 }}>
             {vehicle ? `${vehicle.dailyPrice}/day` : ''}
           </span>
-          <a href="#book" className="btn btn-primary" onClick={onClose}>
+          <a
+            href="#book"
+            className="btn btn-primary"
+            onClick={() => {
+              if (vehicle) onBookVehicle(vehicle.name);
+              onClose();
+            }}
+          >
             Book this car
           </a>
         </div>

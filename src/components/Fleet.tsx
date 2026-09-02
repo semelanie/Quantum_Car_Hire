@@ -4,9 +4,10 @@ import { useVehicles } from '../context/VehiclesContext';
 
 interface FleetProps {
   onSelectVehicle: (key: string) => void;
+  onBookVehicle: (name: string) => void;
 }
 
-export default function Fleet({ onSelectVehicle }: FleetProps) {
+export default function Fleet({ onSelectVehicle, onBookVehicle }: FleetProps) {
   const { vehicles } = useVehicles();
 
   return (
@@ -20,11 +21,11 @@ export default function Fleet({ onSelectVehicle }: FleetProps) {
 
         <div className="fleet-grid">
           {vehicles.map((vehicle) => (
-            <FleetCard vehicle={vehicle} onOpen={onSelectVehicle} key={vehicle.key} />
+            <FleetCard vehicle={vehicle} onOpen={onSelectVehicle} onBookVehicle={onBookVehicle} key={vehicle.key} />
           ))}
         </div>
 
-        <RatesList vehicles={vehicles} />
+        <RatesList vehicles={vehicles} onBookVehicle={onBookVehicle} />
 
         <p className="foot-note">
           + Baby car seat available on any vehicle, small daily fee. A cleaning fee applies if a car is returned

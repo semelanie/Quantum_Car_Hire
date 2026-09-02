@@ -109,6 +109,17 @@ error and points the customer to WhatsApp instead, so a booking never just silen
 There's also a hidden honeypot field in the form (real visitors never see or fill it) that quietly
 drops obvious bot submissions without sending you spam email.
 
+## "Book this car" pre-fills the booking form
+
+Clicking any "Book →" / "Book this car" link — on a Fleet card, in the expanded Rates row, or
+inside the vehicle profile popup — jumps to the booking form (`#book`), switches its service type
+to Car Rentals (vehicle choice only applies there), and sets the Vehicle dropdown to that specific
+car, instead of leaving it on "Any". This is wired through `SitePage.tsx`'s `handleBookVehicle`,
+which passes a `requestedVehicle` value down into `Hero.tsx` — the component that actually owns the
+booking form's state — since Fleet/Rates/the vehicle modal are siblings of `Hero`, not its
+children. `Hero` picks up a new `requestedVehicle` and applies it during render (not inside a
+`useEffect`) to avoid an unnecessary extra render on every click.
+
 ## Pickup & drop-off
 
 - **Map ↔ form sync:** tapping a pin (or any other spot) on the map updates whichever field is
