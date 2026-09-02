@@ -30,15 +30,16 @@ src/
   data/           default vehicle fleet data and map location data
   pages/          SitePage (the public site) and AdminPage (password gate + admin panel)
   types/          shared TypeScript types
-  App.tsx         router root (/ → SitePage, /admin → AdminPage)
+  App.tsx         router root (/ → SitePage, /admin/login → AdminPage)
   main.tsx        React entry point
   index.css       global stylesheet (converted from the original <style> block)
 ```
 
 ## Admin panel
 
-Go to **`/admin`** (there's also a small "Admin" link in the footer) to edit rates, vehicle
-details, and photos without touching code.
+Go to **`/admin/login`** to edit rates, vehicle details, and photos without touching code. There's
+no link to it anywhere on the public site on purpose — you just need to know (or bookmark) the
+URL.
 
 - **Password:** `quantum2026` — change it in `src/admin/config.ts`. This is a casual gate, not
   real security: the password ships inside the JavaScript bundle, so anyone who opens devtools
@@ -58,12 +59,12 @@ details, and photos without touching code.
 
 ### Deploying with the admin route
 
-The admin panel is a client-side route (`/admin`), handled by React Router. `npm run dev` and
-`npm run preview` both serve it correctly out of the box. If you deploy the `dist/` folder to a
-static host (Netlify, Vercel, GitHub Pages, etc.), you'll need to configure that host to serve
+The admin panel is a client-side route (`/admin/login`), handled by React Router. `npm run dev`
+and `npm run preview` both serve it correctly out of the box. If you deploy the `dist/` folder to
+a static host (Netlify, Vercel, GitHub Pages, etc.), you'll need to configure that host to serve
 `index.html` for unknown paths (a SPA fallback / rewrite rule) so that a direct visit to
-`/admin` doesn't 404 — most hosts have a one-line config for this (e.g. Netlify's `_redirects`
-with `/* /index.html 200`, or Vercel's `rewrites` in `vercel.json`).
+`/admin/login` doesn't 404 — most hosts have a one-line config for this (e.g. Netlify's
+`_redirects` with `/* /index.html 200`, or Vercel's `rewrites` in `vercel.json`).
 
 ## Booking requests & email
 

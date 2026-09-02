@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { FacebookIcon, MessengerIcon, EmailIcon } from './Icons';
 
 interface FooterProps {
@@ -58,9 +57,7 @@ export default function Footer({ onOpenPrivacyModal }: FooterProps) {
         <div className="footer-bottom">
           <span>© 2026 Quantum Car Hire, Perseverance, Mahé.</span>
           <span style={{ opacity: 0.7 }}>Developed by VERTEX</span>
-          <span>
-            Open 24/7 · <Link to="/admin" style={{ opacity: 0.6 }}>Admin</Link>
-          </span>
+          <span>Open 24/7</span>
         </div>
       </div>
     </footer>

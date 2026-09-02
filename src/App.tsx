@@ -8,7 +8,7 @@ export default function App() {
     <VehiclesProvider>
       <Routes>
         <Route path="/" element={<SitePage />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin/login" element={<AdminPage />} />
         <Route path="*" element={<SitePage />} />
       </Routes>
     </VehiclesProvider>

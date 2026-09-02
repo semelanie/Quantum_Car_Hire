@@ -34,8 +34,15 @@ export default function Hero({ requestedVehicle }: HeroProps) {
   const [activeServiceType, setActiveServiceType] = useState<ServiceType>('rental');
 
   const [mode, setMode] = useState<MapMode>('pickup');
-  const [picked, setPicked] = useState<PickedLocations>({ pickup: null, dropoff: null });
-  const [googleMapsUrl, setGoogleMapsUrl] = useState(DEFAULT_MAPS_URL);
+  // Pick-up/Drop-off both default to "Airport" below — start the map status
+  // and "Open in Google Maps" link already showing that name instead of
+  // "not set", so the map reflects the dropdowns from the very first render
+  // instead of only after the user touches one of them.
+  const airportStop = namedStops.find((s) => s.name === 'Airport');
+  const [picked, setPicked] = useState<PickedLocations>({ pickup: 'Airport', dropoff: 'Airport' });
+  const [googleMapsUrl, setGoogleMapsUrl] = useState(
+    airportStop ? mapsUrlFor(airportStop.name, airportStop.lat, airportStop.lng) : DEFAULT_MAPS_URL,
+  );
 
   const [pickupLoc, setPickupLoc] = useState('Airport');
   const [dropoffLoc, setDropoffLoc] = useState('Airport');
