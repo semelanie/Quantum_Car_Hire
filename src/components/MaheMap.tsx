@@ -15,6 +15,37 @@ function markerStyle(state: MapMode | null): L.CircleMarkerOptions {
   return { radius: 8, weight: 2, color: '#fff', fillColor: '#0A2350', fillOpacity: 1 };
 }
 
+/** Great-circle distance between two lat/lng points, in kilometres. */
+function distanceKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+/**
+ * A human-readable stand-in for a tapped point that never shows raw
+ * lat/lng — "near <closest named stop>", with distance only included once
+ * it stops rounding to "0.0 km" (i.e. the pin isn't right on top of it).
+ */
+function nearestStopLabel(lat: number, lng: number): string {
+  let closest = namedStops[0];
+  let closestDist = Infinity;
+  for (const stop of namedStops) {
+    const d = distanceKm(lat, lng, stop.lat, stop.lng);
+    if (d < closestDist) {
+      closestDist = d;
+      closest = stop;
+    }
+  }
+  if (!closest) return 'Pinned location';
+  if (closestDist < 0.05) return `Near ${closest.name}`;
+  return `Pinned spot (~${closestDist.toFixed(1)} km from ${closest.name})`;
+}
+
 /**
  * Turn a tapped map point into a short, human-readable address (e.g. "Anse
  * Royale road, Anse Royale") via OpenStreetMap's free Nominatim reverse
@@ -22,19 +53,26 @@ function markerStyle(state: MapMode | null): L.CircleMarkerOptions {
  * Nominatim's usage policy caps this at ~1 request/second and asks that
  * production traffic either self-host Nominatim or use a paid geocoder
  * instead (see https://operations.osmfoundation.org/policies/nominatim/).
- * Falls back to the raw coordinates if the lookup fails or is empty.
+ * Returns null (never coordinates) if the lookup fails or comes back empty —
+ * the caller already has a coordinate-free fallback ready either way.
  */
 async function reverseGeocode(lat: number, lng: number, signal: AbortSignal): Promise<string | null> {
-  const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
+  const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=17&addressdetails=1`;
   const res = await fetch(url, { signal, headers: { Accept: 'application/json' } });
   if (!res.ok) return null;
-  const data: { address?: Record<string, string>; display_name?: string } = await res.json();
+  const data: { address?: Record<string, string>; display_name?: string; error?: string } = await res.json();
+  if (data.error) return null;
   const a = data.address ?? {};
-  const primary = a.road || a.pedestrian || a.footway || a.neighbourhood || a.suburb || a.hamlet;
-  const area = a.suburb || a.village || a.town || a.city_district || a.city;
+  const primary =
+    a.road || a.pedestrian || a.footway || a.neighbourhood || a.suburb || a.hamlet || a.village || a.town;
+  const area = a.suburb || a.village || a.town || a.city_district || a.city || a.county;
   const parts = [primary, area && area !== primary ? area : null].filter(Boolean);
   if (parts.length > 0) return parts.join(', ');
-  return data.display_name ? data.display_name.split(',').slice(0, 2).join(',').trim() : null;
+  if (!data.display_name) return null;
+  // display_name's last couple of segments are usually just "Seychelles" /
+  // the district — keep the first two, which are the most specific.
+  const short = data.display_name.split(',').slice(0, 2).join(',').trim();
+  return short || null;
 }
 
 export default function MaheMap({ mode, picked, onSelectLocation }: MaheMapProps) {
@@ -94,16 +132,16 @@ export default function MaheMap({ mode, picked, onSelectLocation }: MaheMapProps
 
     map.on('click', (e: L.LeafletMouseEvent) => {
       const { lat, lng } = e.latlng;
-      const fallbackLabel = `Pinned location (${lat.toFixed(3)}, ${lng.toFixed(3)})`;
+      const fallbackLabel = nearestStopLabel(lat, lng);
 
       if (customMarkerRef.current) map.removeLayer(customMarkerRef.current);
       const marker = L.circleMarker([lat, lng], markerStyle(modeRef.current)).addTo(map);
-      marker.bindTooltip('Locating address…', { direction: 'top', offset: [0, -8] }).openTooltip();
+      marker.bindTooltip(fallbackLabel, { direction: 'top', offset: [0, -8] }).openTooltip();
       customMarkerRef.current = marker;
 
-      // Show something immediately (coordinates), then swap in a real
-      // street/area name once the reverse-geocode lookup resolves, so the
-      // pickup/drop-off field never shows raw lat/lng for long.
+      // Show a plain-language stand-in immediately (never raw lat/lng), then
+      // swap in a real street/area name once the reverse-geocode lookup
+      // resolves — or just leave the stand-in if that lookup fails.
       onSelectLocationRef.current(fallbackLabel, lat, lng, true);
 
       geocodeAbortRef.current?.abort();
