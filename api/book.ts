@@ -143,7 +143,7 @@ export default {
         '',
         ...lines,
         '',
-        "We'll check availability and confirm by email or WhatsApp shortly. If it's urgent, message us any time on WhatsApp: +248 2599 333.",
+        "We'll check availability and confirm by email or WhatsApp shortly. If it's urgent, message us any time on WhatsApp: +248 2600 010.",
         '',
         '— Quantum Car Hire',
       ].join('\n'),

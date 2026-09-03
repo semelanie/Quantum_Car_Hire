@@ -34,8 +34,8 @@ export default function Footer({ onOpenPrivacyModal }: FooterProps) {
           </div>
           <div className="footer-col">
             <h4>Contact</h4>
-            <a href="https://wa.me/2482599333" target="_blank" rel="noopener noreferrer">
-              WhatsApp: +248 2599 333
+            <a href="https://wa.me/2482600010" target="_blank" rel="noopener noreferrer">
+              WhatsApp: +248 2600 010
             </a>
             <a href="mailto:info@quantumcarhire.com">info@quantumcarhire.com</a>
           </div>

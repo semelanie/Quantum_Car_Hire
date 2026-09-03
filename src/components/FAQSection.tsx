@@ -56,12 +56,12 @@ const FAQ_CONTENT: Record<FaqPanelKey, FaqEntry[]> = {
         <>
           Call or WhatsApp us right away at{' '}
           <a
-            href="https://wa.me/2482599333"
+            href="https://wa.me/2482600010"
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: 'var(--ocean)', fontWeight: 600 }}
           >
-            +248 2599 333
+            +248 2600 010
           </a>
           . We&apos;re reachable 24/7 and will guide you through next steps.
         </>

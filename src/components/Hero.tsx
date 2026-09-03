@@ -130,9 +130,9 @@ export default function Hero({ requestedVehicle }: HeroProps) {
             <a href="#book" className="btn btn-primary">
               Check availability
             </a>
-            <a href="https://wa.me/2482599333" target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp">
+            <a href="https://wa.me/2482600010" target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp">
               <WhatsAppIcon />
-              +248 2599 333
+              +248 2600 010
             </a>
           </div>
           <div className="facts">

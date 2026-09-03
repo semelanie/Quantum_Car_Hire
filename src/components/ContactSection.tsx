@@ -16,8 +16,8 @@ export default function ContactSection() {
             </div>
             <div>
               <span className="label">WhatsApp</span>
-              <a href="https://wa.me/2482599333" target="_blank" rel="noopener noreferrer">
-                +248 2599 333
+              <a href="https://wa.me/2482600010" target="_blank" rel="noopener noreferrer">
+                +248 2600 010
               </a>
             </div>
             <div>
@@ -38,7 +38,7 @@ export default function ContactSection() {
             It's the fastest way to reach us — we're online 24/7 and usually reply within minutes. Send us your
             dates, pickup point and the vehicle you're after, and we'll confirm availability right away.
           </p>
-          <a href="https://wa.me/2482599333" target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp contact-cta-btn">
+          <a href="https://wa.me/2482600010" target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp contact-cta-btn">
             <WhatsAppIcon />
             Chat on WhatsApp
           </a>

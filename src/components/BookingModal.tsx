@@ -122,7 +122,7 @@ export default function BookingModal({ isOpen, onClose, trip }: BookingModalProp
               urgent, message us any time.
             </p>
             <a
-              href="https://wa.me/2482599333"
+              href="https://wa.me/2482600010"
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-whatsapp"
@@ -193,7 +193,7 @@ export default function BookingModal({ isOpen, onClose, trip }: BookingModalProp
               {status === 'error' && (
                 <p style={{ color: '#b3402e', fontSize: '0.84rem', marginBottom: 12 }}>
                   {errorMessage} You can also{' '}
-                  <a href="https://wa.me/2482599333" target="_blank" rel="noopener noreferrer" style={{ color: '#b3402e', fontWeight: 600 }}>
+                  <a href="https://wa.me/2482600010" target="_blank" rel="noopener noreferrer" style={{ color: '#b3402e', fontWeight: 600 }}>
                     message us on WhatsApp
                   </a>
                   .

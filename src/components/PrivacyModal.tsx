@@ -41,12 +41,12 @@ const PRIVACY_ROWS: PrivacyRow[] = [
         </a>{' '}
         or message us on WhatsApp at{' '}
         <a
-          href="https://wa.me/2482599333"
+          href="https://wa.me/2482600010"
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: 'var(--ocean)', fontWeight: 600 }}
         >
-          +248 2599 333
+          +248 2600 010
         </a>
         .
       </>
