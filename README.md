@@ -60,11 +60,12 @@ URL.
 ### Deploying with the admin route
 
 The admin panel is a client-side route (`/admin/login`), handled by React Router. `npm run dev`
-and `npm run preview` both serve it correctly out of the box. If you deploy the `dist/` folder to
-a static host (Netlify, Vercel, GitHub Pages, etc.), you'll need to configure that host to serve
-`index.html` for unknown paths (a SPA fallback / rewrite rule) so that a direct visit to
-`/admin/login` doesn't 404 — most hosts have a one-line config for this (e.g. Netlify's
-`_redirects` with `/* /index.html 200`, or Vercel's `rewrites` in `vercel.json`).
+and `npm run preview` both serve it correctly out of the box. A static host needs to be told to
+serve `index.html` for unknown paths (a SPA fallback / rewrite rule), otherwise a direct visit or
+page refresh on `/admin/login` 404s instead of loading the app. This repo includes `vercel.json`
+with that rewrite already configured, so it works out of the box on Vercel; if you ever move to a
+different static host (Netlify, GitHub Pages, etc.), add the equivalent there (e.g. Netlify's
+`_redirects` with `/* /index.html 200`).
 
 ## Booking requests & email
 
@@ -127,12 +128,16 @@ children. `Hero` picks up a new `requestedVehicle` and applies it during render 
   active — Pick-up or Drop-off, chosen with the "Set pickup"/"Set drop-off" buttons — and picking
   a place from the Pick-up/Drop-off dropdowns updates the map's status text and its "Open in
   Google Maps" link the same way, in both directions.
-- **Place list:** the Pick-up/Drop-off dropdowns (`src/data/places.ts`) are grouped into Common
-  pickup points (the four pins also shown on the map), Hotels & resorts, Guesthouses & villas,
-  and Landmarks & beaches — real, well-known Mahé places. Only the four "common" points have map
-  coordinates; picking anything else opens a Google Maps text search for that place instead of an
-  exact pin. Add more entries by editing the arrays in that file (add a `{ name, lat, lng }` to
-  `src/data/locations.ts` too if you want a place to also get its own map pin).
+- **Place list & search:** the Pick-up/Drop-off fields (`LocationCombobox`, list sourced from
+  `src/data/places.ts`) are a searchable combobox, not a plain dropdown — click to browse the full
+  grouped list (Common pickup points, the four pins also shown on the map; Hotels & resorts;
+  Guesthouses & villas; Landmarks & beaches), or type to filter it live. Typing anything that
+  isn't in the list is accepted too — whatever you type becomes the pick-up/drop-off value
+  directly, shown right in the field itself, once you press Enter or click away. Only the four
+  "common" points have map coordinates; anything else opens a Google Maps text search for that
+  place instead of an exact pin. Add more entries by editing the arrays in `places.ts` (add a
+  `{ name, lat, lng }` to `src/data/locations.ts` too if you want a place to also get its own map
+  pin).
 - **Date & time:** Pick-up date/time show for all three service types (Car Rentals, Transfers,
   Tours); Drop-off date is rental-only (a transfer or tour is a one-way trip), but Drop-off time
   shows for all three, in case you want an estimated drop-off/return time either way.
@@ -140,13 +145,14 @@ children. `Hero` picks up a new `requestedVehicle` and applies it during render 
   ("Near Beau Vallon", or "Pinned spot (~2.1 km from Beau Vallon)") — never raw coordinates — then
   automatically upgrades to a real street/area name (e.g. "Anse Royale road, Anse Royale") once a
   free reverse-geocoding lookup ([OpenStreetMap Nominatim](https://nominatim.org/), no API key)
-  resolves. If the lookup fails (offline, rate-limited, etc.) the stand-in just stays as shown —
-  it's designed to always read as a real place, never lat/lng. This is a client-side demo
-  integration: Nominatim's usage policy caps free use at roughly one request/second, so for a
-  busier production site consider self-hosting Nominatim or switching to a paid geocoder (see
-  `reverseGeocode` in `src/components/MaheMap.tsx`). A late-arriving lookup is also cancelled the
-  moment you tap a named pin instead, so it can never overwrite a fresher pick back to "Other
-  address" — a real race-condition bug that was caught and fixed during development.
+  resolves, shown directly in the Pick-up/Drop-off field itself. If the lookup fails (offline,
+  rate-limited, etc.) the stand-in just stays as shown — it's designed to always read as a real
+  place, never lat/lng. This is a client-side demo integration: Nominatim's usage policy caps free
+  use at roughly one request/second, so for a busier production site consider self-hosting
+  Nominatim or switching to a paid geocoder (see `reverseGeocode` in
+  `src/components/MaheMap.tsx`). A late-arriving lookup is also cancelled the moment you tap a
+  named pin instead, so it can never overwrite a fresher pick with a stale custom address — a real
+  race-condition bug that was caught and fixed during development.
 
 ## Notes on the conversion
 
@@ -155,6 +161,6 @@ children. `Hero` picks up a new `requestedVehicle` and applies it during render 
 - The five images that were embedded as base64 data URIs in the original HTML have been extracted into real image files under `src/assets/` and are imported normally so Vite can optimize/hash them (until replaced through the admin panel, at which point they become data URLs, same as the original prototype).
 - The booking form's "Check availability" button now opens a real booking-request flow (see "Booking requests & email" above) instead of the original's demo `alert()`.
 - The contact section's mailto form has been replaced with a WhatsApp-first call-to-action card (`ContactSection.tsx` / `.contact-cta` in `index.css`), since a real-time chat app is a faster and more reliable way for a car-hire business to actually receive a message than a `mailto:` form submission.
-- The favicon (`public/favicon.ico`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png`) is cropped from the "Q" + swoosh mark in `src/assets/logo.jpeg` — the full wordmark logo is too wide/detailed to read at browser-tab size, so only that portion was used. Regenerate it from a different crop if the brand mark changes.
+- The favicon (`public/favicon.ico`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png`) is cropped tightly to just the "Q" + its gold flourish from `src/assets/logo.jpeg`, with a transparent background (flattened onto white for `apple-touch-icon.png`, per convention) — the full wordmark logo is too wide/detailed to read at browser-tab size, and the crop is deliberately kept just below the car-swoosh line and just left of the "U" so neither bleeds in as a stray mark. Regenerate it from a different crop if the brand mark changes.
 - The whole site (public pages and the admin panel) got a mobile-responsiveness pass: a `booking-grid` breakpoint below 480px so date/time fields never clip, the vehicle-modal feature list stacks label-over-description on narrow screens instead of squeezing into a ~90px column, the FAQ tabs shrink slightly below 380px so all three fit without relying on hidden horizontal scroll, and every form input (site + admin) is at least 16px so iOS Safari doesn't auto-zoom the page when a field is focused.
 - **SEO / link previews** (`index.html`): a `<meta name="description">` summarizing the three services (car rentals, transfers, tours), Open Graph + Twitter Card tags so links shared on WhatsApp/Facebook/iMessage/Slack/X show a proper title, description and image instead of a bare URL, `schema.org` `AutoRental` structured data (address, phone, hours) for richer search results, and `public/robots.txt` + `public/sitemap.xml` (the admin panel is excluded from crawling via `robots.txt`). The social-preview image is `public/og-image.jpg` (1200×630, generated from the logo) — regenerate it if the brand mark changes. All of these hardcode `https://www.quantumcarhire.com/` as the canonical URL; update that across `index.html`, `robots.txt` and `sitemap.xml` if the domain ever changes.

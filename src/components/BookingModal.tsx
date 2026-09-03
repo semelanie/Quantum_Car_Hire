@@ -6,7 +6,6 @@ export interface TripSummary {
   serviceType: ServiceType;
   pickupLoc: string;
   dropoffLoc: string;
-  otherAddress: string;
   carType: string;
   passengers: number;
   pickupDate: string;
@@ -30,17 +29,13 @@ const SERVICE_LABELS: Record<ServiceType, string> = {
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
-function locationText(loc: string, otherAddress: string): string {
-  return loc === 'Other address' && otherAddress ? otherAddress : loc;
-}
-
 function tripLines(trip: TripSummary): { label: string; value: string }[] {
   const lines = [
     { label: 'Service', value: SERVICE_LABELS[trip.serviceType] },
-    { label: 'Pick-up', value: locationText(trip.pickupLoc, trip.otherAddress) },
+    { label: 'Pick-up', value: trip.pickupLoc },
   ];
   if (trip.serviceType === 'rental') {
-    lines.push({ label: 'Drop-off', value: locationText(trip.dropoffLoc, trip.otherAddress) });
+    lines.push({ label: 'Drop-off', value: trip.dropoffLoc });
     lines.push({ label: 'Vehicle', value: trip.carType });
   } else {
     lines.push({ label: 'Passengers', value: String(trip.passengers) });

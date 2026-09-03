@@ -544,7 +544,8 @@ section {
   font-weight: 600;
 }
 .field input,
-.field select {
+.field select,
+.location-combobox input {
   width: 100%;
   padding: 10px 11px;
   border: 1px solid var(--sand-line);
@@ -558,8 +559,77 @@ section {
   transition: border-color 0.15s;
 }
 .field input:focus,
-.field select:focus {
+.field select:focus,
+.location-combobox input:focus {
   border-color: var(--lagoon);
+  outline: none;
+}
+
+/* Pick-up / drop-off searchable field */
+.location-combobox {
+  position: relative;
+}
+.location-combobox-menu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 280px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid var(--sand-line);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 16px 34px -18px rgba(11, 37, 69, 0.4);
+  padding: 6px;
+}
+.location-combobox-group + .location-combobox-group {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--sand-line);
+}
+.location-combobox-group-label {
+  display: block;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9a9ea4;
+  font-weight: 600;
+  padding: 6px 8px 2px;
+}
+.location-combobox-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: var(--granite);
+  cursor: pointer;
+}
+.location-combobox-option:hover,
+.location-combobox-option.active {
+  background: #f2f4f7;
+}
+.location-combobox-option.selected {
+  color: var(--ocean);
+  font-weight: 600;
+}
+.location-combobox-hint {
+  padding: 8px;
+  font-size: 0.82rem;
+  color: #767a80;
+}
+.location-combobox-hint kbd {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  background: #f2f4f7;
+  border: 1px solid var(--sand-line);
+  border-radius: 4px;
+  padding: 1px 5px;
 }
 .booking .btn-primary {
   width: 100%;

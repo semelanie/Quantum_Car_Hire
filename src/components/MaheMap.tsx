@@ -6,7 +6,7 @@ import type { MapMode, PickedLocations } from '../types/location';
 interface MaheMapProps {
   mode: MapMode;
   picked: PickedLocations;
-  onSelectLocation: (name: string, lat: number, lng: number, isCustom: boolean) => void;
+  onSelectLocation: (name: string, lat: number, lng: number) => void;
 }
 
 function markerStyle(state: MapMode | null): L.CircleMarkerOptions {
@@ -129,7 +129,7 @@ export default function MaheMap({ mode, picked, onSelectLocation }: MaheMapProps
         // earlier custom tap — otherwise it can resolve after this named
         // pick and silently overwrite it back to "Other address".
         geocodeAbortRef.current?.abort();
-        onSelectLocationRef.current(stop.name, stop.lat, stop.lng, false);
+        onSelectLocationRef.current(stop.name, stop.lat, stop.lng);
       });
       stopMarkersRef.current[stop.name] = marker;
     });
@@ -146,7 +146,7 @@ export default function MaheMap({ mode, picked, onSelectLocation }: MaheMapProps
       // Show a plain-language stand-in immediately (never raw lat/lng), then
       // swap in a real street/area name once the reverse-geocode lookup
       // resolves — or just leave the stand-in if that lookup fails.
-      onSelectLocationRef.current(fallbackLabel, lat, lng, true);
+      onSelectLocationRef.current(fallbackLabel, lat, lng);
 
       geocodeAbortRef.current?.abort();
       const controller = new AbortController();
@@ -155,7 +155,7 @@ export default function MaheMap({ mode, picked, onSelectLocation }: MaheMapProps
         .then((address) => {
           if (controller.signal.aborted || !address) return;
           marker.setTooltipContent(address);
-          onSelectLocationRef.current(address, lat, lng, true);
+          onSelectLocationRef.current(address, lat, lng);
         })
         .catch(() => {
           // Aborted (superseded by a newer tap) or the lookup failed — the

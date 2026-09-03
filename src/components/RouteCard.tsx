@@ -7,7 +7,7 @@ interface RouteCardProps {
   mode: MapMode;
   onModeChange: (mode: MapMode) => void;
   picked: PickedLocations;
-  onSelectLocation: (name: string, lat: number, lng: number, isCustom: boolean) => void;
+  onSelectLocation: (name: string, lat: number, lng: number) => void;
   googleMapsUrl: string;
 }
 

@@ -1,5 +1,5 @@
 import { useVehicles } from '../context/VehiclesContext';
-import { placeGroups, OTHER_ADDRESS } from '../data/places';
+import LocationCombobox from './LocationCombobox';
 import type { ServiceType } from '../types/location';
 
 interface BookingFormProps {
@@ -9,8 +9,6 @@ interface BookingFormProps {
   onPickupLocChange: (value: string) => void;
   dropoffLoc: string;
   onDropoffLocChange: (value: string) => void;
-  otherAddress: string;
-  onOtherAddressChange: (value: string) => void;
   carType: string;
   onCarTypeChange: (value: string) => void;
   passengers: number;
@@ -32,21 +30,6 @@ function shows(allowed: ServiceType[], active: ServiceType) {
   return allowed.includes(active);
 }
 
-function PlaceOptions() {
-  return (
-    <>
-      {placeGroups.map((group) => (
-        <optgroup label={group.label} key={group.label}>
-          {group.places.map((place) => (
-            <option key={place}>{place}</option>
-          ))}
-        </optgroup>
-      ))}
-      <option>{OTHER_ADDRESS}</option>
-    </>
-  );
-}
-
 export default function BookingForm({
   activeServiceType,
   onServiceTypeChange,
@@ -54,8 +37,6 @@ export default function BookingForm({
   onPickupLocChange,
   dropoffLoc,
   onDropoffLocChange,
-  otherAddress,
-  onOtherAddressChange,
   carType,
   onCarTypeChange,
   passengers,
@@ -80,16 +61,12 @@ export default function BookingForm({
       <div className="booking-grid">
         <div className="field" style={{ display: shows(['rental', 'transfer', 'tour'], activeServiceType) ? undefined : 'none' }}>
           <label htmlFor="pickup-loc">Pick-up</label>
-          <select id="pickup-loc" value={pickupLoc} onChange={(e) => onPickupLocChange(e.target.value)}>
-            <PlaceOptions />
-          </select>
+          <LocationCombobox id="pickup-loc" value={pickupLoc} onChange={onPickupLocChange} />
         </div>
 
         <div className="field" style={{ display: shows(['rental', 'transfer', 'tour'], activeServiceType) ? undefined : 'none' }}>
           <label htmlFor="dropoff-loc">Drop-off</label>
-          <select id="dropoff-loc" value={dropoffLoc} onChange={(e) => onDropoffLocChange(e.target.value)}>
-            <PlaceOptions />
-          </select>
+          <LocationCombobox id="dropoff-loc" value={dropoffLoc} onChange={onDropoffLocChange} />
         </div>
 
         <div className="field" style={{ display: shows(['rental'], activeServiceType) ? undefined : 'none' }}>
@@ -132,17 +109,6 @@ export default function BookingForm({
         <div className="field" style={{ display: shows(['rental', 'transfer', 'tour'], activeServiceType) ? undefined : 'none' }}>
           <label htmlFor="dropoff-time">Drop-off time</label>
           <input type="time" id="dropoff-time" value={dropoffTime} onChange={(e) => onDropoffTimeChange(e.target.value)} />
-        </div>
-
-        <div className="field" style={{ display: shows(['rental', 'transfer', 'tour'], activeServiceType) ? undefined : 'none' }}>
-          <label htmlFor="other-address">Other address (if selected)</label>
-          <input
-            type="text"
-            id="other-address"
-            placeholder="e.g. villa or guesthouse name"
-            value={otherAddress}
-            onChange={(e) => onOtherAddressChange(e.target.value)}
-          />
         </div>
 
         <div className="field" style={{ display: shows(['rental', 'transfer', 'tour'], activeServiceType) ? undefined : 'none' }}>

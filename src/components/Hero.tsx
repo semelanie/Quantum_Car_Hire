@@ -3,7 +3,6 @@ import RouteCard from './RouteCard';
 import BookingForm from './BookingForm';
 import BookingModal from './BookingModal';
 import { namedStops, mapCenter } from '../data/locations';
-import { OTHER_ADDRESS } from '../data/places';
 import { ClockIcon, CarIcon, TagIcon, WhatsAppIcon } from './Icons';
 import type { MapMode, PickedLocations, ServiceType } from '../types/location';
 
@@ -46,7 +45,6 @@ export default function Hero({ requestedVehicle }: HeroProps) {
 
   const [pickupLoc, setPickupLoc] = useState('Airport');
   const [dropoffLoc, setDropoffLoc] = useState('Airport');
-  const [otherAddress, setOtherAddress] = useState('');
   const [carType, setCarType] = useState('Any');
   const [passengers, setPassengers] = useState(1);
   const [pickupDate, setPickupDate] = useState('');
@@ -75,32 +73,18 @@ export default function Hero({ requestedVehicle }: HeroProps) {
   // custom tap) always drives the matching field below — pickupLoc when
   // "Set pickup" is active, dropoffLoc when "Set drop-off" is active — and
   // vice versa (see handlePickupLocChange/handleDropoffLocChange): the map
-  // and the booking form stay in sync in both directions.
-  function handleSelectLocation(name: string, lat: number, lng: number, isCustom: boolean) {
+  // and the booking form stay in sync in both directions, and always show
+  // the actual place name in the field itself (never a generic "Other
+  // address" placeholder hiding the real name in a second field).
+  function handleSelectLocation(name: string, lat: number, lng: number) {
     setPicked((prev) => ({ ...prev, [mode]: name }));
-
-    if (mode === 'pickup') {
-      if (isCustom) {
-        setPickupLoc(OTHER_ADDRESS);
-        setOtherAddress(name);
-      } else {
-        setPickupLoc(name);
-      }
-    } else {
-      if (isCustom) {
-        setDropoffLoc(OTHER_ADDRESS);
-        setOtherAddress(name);
-      } else {
-        setDropoffLoc(name);
-      }
-    }
-
+    if (mode === 'pickup') setPickupLoc(name);
+    else setDropoffLoc(name);
     setGoogleMapsUrl(mapsUrlFor(name, lat, lng));
   }
 
   function handlePickupLocChange(value: string) {
     setPickupLoc(value);
-    if (value === OTHER_ADDRESS) return;
     setPicked((prev) => ({ ...prev, pickup: value }));
     const match = namedStops.find((s) => s.name === value);
     setGoogleMapsUrl(mapsUrlFor(value, match?.lat, match?.lng));
@@ -108,7 +92,6 @@ export default function Hero({ requestedVehicle }: HeroProps) {
 
   function handleDropoffLocChange(value: string) {
     setDropoffLoc(value);
-    if (value === OTHER_ADDRESS) return;
     setPicked((prev) => ({ ...prev, dropoff: value }));
     const match = namedStops.find((s) => s.name === value);
     setGoogleMapsUrl(mapsUrlFor(value, match?.lat, match?.lng));
@@ -187,8 +170,6 @@ export default function Hero({ requestedVehicle }: HeroProps) {
           onPickupLocChange={handlePickupLocChange}
           dropoffLoc={dropoffLoc}
           onDropoffLocChange={handleDropoffLocChange}
-          otherAddress={otherAddress}
-          onOtherAddressChange={setOtherAddress}
           carType={carType}
           onCarTypeChange={setCarType}
           passengers={passengers}
@@ -214,7 +195,6 @@ export default function Hero({ requestedVehicle }: HeroProps) {
           serviceType: activeServiceType,
           pickupLoc,
           dropoffLoc,
-          otherAddress,
           carType,
           passengers,
           pickupDate,

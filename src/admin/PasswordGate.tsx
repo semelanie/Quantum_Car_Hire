@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
+import logo from '../assets/logo.jpeg';
 import { ADMIN_PASSWORD, ADMIN_SESSION_KEY } from './config';
 
 interface PasswordGateProps {
@@ -28,12 +29,15 @@ export default function PasswordGate({ onUnlock }: PasswordGateProps) {
   return (
     <div className="admin-gate">
       <form className="admin-gate-card" onSubmit={handleSubmit}>
+        <img className="admin-gate-logo" src={logo} alt="Quantum Car Hire" />
         <span className="eyebrow">Quantum Car Hire</span>
         <h1>Admin sign-in</h1>
         <p className="admin-gate-hint">Enter the admin password to edit rates, vehicles and photos.</p>
         <input
           type="password"
           autoFocus
+          autoComplete="current-password"
+          inputMode="text"
           placeholder="Password"
           value={password}
           onChange={(e) => {

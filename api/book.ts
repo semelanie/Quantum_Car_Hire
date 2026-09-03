@@ -20,7 +20,6 @@ interface BookingPayload {
   serviceType?: string;
   pickupLoc?: string;
   dropoffLoc?: string;
-  otherAddress?: string;
   carType?: string;
   passengers?: number;
   pickupDate?: string;
@@ -42,18 +41,16 @@ function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function locationLine(label: string, loc: string | undefined, otherAddress: string | undefined): string {
-  if (!loc) return `${label}: —`;
-  if (loc === 'Other address' && otherAddress) return `${label}: ${otherAddress}`;
-  return `${label}: ${loc}`;
+function locationLine(label: string, loc: string | undefined): string {
+  return `${label}: ${loc || '—'}`;
 }
 
 function summaryLines(b: BookingPayload): string[] {
   const serviceLabel = (b.serviceType && SERVICE_LABELS[b.serviceType]) || b.serviceType || '—';
-  const lines = [`Service: ${serviceLabel}`, locationLine('Pick-up', b.pickupLoc, b.otherAddress)];
+  const lines = [`Service: ${serviceLabel}`, locationLine('Pick-up', b.pickupLoc)];
 
   if (b.serviceType === 'rental') {
-    lines.push(locationLine('Drop-off', b.dropoffLoc, b.otherAddress));
+    lines.push(locationLine('Drop-off', b.dropoffLoc));
   }
   if (b.carType) lines.push(`Vehicle: ${b.carType}`);
   if (b.passengers) lines.push(`Passengers: ${b.passengers}`);
