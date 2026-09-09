@@ -31,6 +31,16 @@ export function resizeImageFile(file: File, maxWidth = 900, quality = 0.85): Pro
   });
 }
 
+/** Reads any file (PDF, image, etc.) as a plain base64 data URL, unmodified — used for service-record document uploads. */
+export function fileToDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(reader.error ?? new Error('Could not read file'));
+    reader.readAsDataURL(file);
+  });
+}
+
 /** Fetches any same-origin image URL (including Vite asset URLs) and returns it as a data: URL. */
 export async function urlToDataUrl(src: string): Promise<string> {
   if (src.startsWith('data:')) return src;

@@ -1,4 +1,5 @@
 import { Resend } from 'resend';
+import { getSupabase } from './_supabase';
 
 /**
  * Handles booking-request submissions from the "Request this booking" form
@@ -94,6 +95,36 @@ export default {
     }
     if (!isValidEmail(email)) {
       return Response.json({ error: "That email address doesn't look right." }, { status: 400 });
+    }
+
+    // Store the request so it shows up on the admin panel's booking
+    // calendar. Best-effort: if Supabase isn't configured yet (see
+    // .env.example), the request still goes through by email as before —
+    // it just won't appear on the calendar until storage is set up.
+    const db = getSupabase();
+    if (db) {
+      const { error: dbError } = await db.from('bookings').insert({
+        status: 'pending',
+        name,
+        email,
+        phone,
+        notes: (body.notes ?? '').trim(),
+        service_type: body.serviceType ?? '',
+        pickup_loc: body.pickupLoc ?? '',
+        dropoff_loc: body.dropoffLoc ?? '',
+        car_type: body.carType ?? '',
+        passengers: body.passengers ?? null,
+        pickup_date: body.pickupDate || null,
+        pickup_time: body.pickupTime ?? '',
+        dropoff_date: body.dropoffDate || null,
+        dropoff_time: body.dropoffTime ?? '',
+        baby_seat: Boolean(body.babySeat),
+      });
+      if (dbError) {
+        console.error('Failed to store booking in Supabase:', dbError.message);
+      }
+    } else {
+      console.warn('Supabase is not configured (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY) — booking not stored for the calendar, only emailed.');
     }
 
     const apiKey = process.env.RESEND_API_KEY;

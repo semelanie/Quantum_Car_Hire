@@ -1,0 +1,80 @@
+/* Driver portal — reuses admin.css tokens/classes (admin-gate*, booking-status-btn,
+   booking-card-*) where the look is identical, and adds only what's different. */
+
+.driver-app {
+  min-height: 100vh;
+  background: var(--sand);
+}
+.driver-topbar {
+  background: var(--ocean);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 18px 20px;
+  padding-top: max(18px, env(safe-area-inset-top));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.driver-topbar h1 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin: 0;
+}
+.driver-topbar .eyebrow {
+  color: #8fb0d6;
+}
+
+.driver-content {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 16px 48px;
+}
+.driver-day-group {
+  margin-bottom: 24px;
+}
+.driver-day-group h2 {
+  font-size: 0.95rem;
+  color: var(--granite);
+  margin-bottom: 10px;
+}
+.driver-booking-card {
+  background: #fff;
+  border: 1px solid var(--sand-line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 14px;
+}
+.driver-booking-head {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.driver-booking-contact {
+  display: flex;
+  gap: 14px;
+  font-size: 0.84rem;
+  margin: 8px 0 12px;
+}
+.driver-booking-contact a {
+  color: var(--lagoon);
+  font-weight: 600;
+}
+
+.trip-status-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.trip-status-buttons .booking-status-btn.active {
+  background: var(--ocean);
+  border-color: var(--ocean);
+  color: #fff;
+}
+@media (max-width: 480px) {
+  .driver-topbar h1 {
+    font-size: 1.05rem;
+  }
+}

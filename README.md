@@ -33,6 +33,21 @@ src/
   App.tsx         router root (/ → SitePage, /admin/login → AdminPage)
   main.tsx        React entry point
   index.css       global stylesheet (converted from the original <style> block)
+  driver/         the driver portal: login page, agenda view, trip-status buttons, session storage
+api/
+  book.ts                 booking-request endpoint: emails + stores in Supabase
+  admin-bookings.ts        admin-only: list/update bookings, assign a driver
+  admin-drivers.ts         admin-only: create/update driver accounts
+  admin-service-events.ts  admin-only: log/update vehicle service & maintenance events
+  driver-login.ts          driver sign-in, returns a session token
+  driver-bookings.ts       driver-only: bookings assigned to the signed-in driver
+  notify-cron.ts           scheduled job: pickup/drop-off + service-due reminder emails
+  _supabase.ts             shared server-side Supabase client (service role key)
+  _auth.ts                 password hashing + driver session tokens (Web Crypto)
+  _bookings.ts             shared booking row → API shape mapping
+  _notify.ts               shared "send a notification email" helper
+supabase/
+  schema.sql            run once in Supabase's SQL Editor — creates every table + storage bucket
 ```
 
 ## Admin panel
@@ -67,15 +82,117 @@ with that rewrite already configured, so it works out of the box on Vercel; if y
 different static host (Netlify, GitHub Pages, etc.), add the equivalent there (e.g. Netlify's
 `_redirects` with `/* /index.html 200`).
 
+## Booking calendar & Supabase
+
+The admin panel's **Bookings** tab shows every request submitted through the site on a calendar —
+click a day to see who requested what, and mark each one Pending / Confirmed / Cancelled. Unlike
+the Fleet & Rates tab, this data is **not** browser-local: it's stored in a small
+[Supabase](https://supabase.com) database, so every admin sees the same bookings regardless of
+device or browser, and requests keep arriving even while nobody's editing the vehicles.
+
+### Set this up (one-time)
+
+1. **Create a free Supabase project** at [supabase.com](https://supabase.com) (the free tier is
+   plenty for this).
+2. **Run the schema**: open your project → **SQL Editor** → **New query**, paste the contents of
+   `supabase/schema.sql` from this repo, and click **Run**. This creates the `bookings`, `drivers`
+   and `service_events` tables (used by the driver portal and service calendar below) plus a
+   private Storage bucket for service documents — safe to run even if you only plan to use the
+   booking calendar for now.
+3. **Grab your credentials**: project → **Settings → API**. You need the **Project URL** and the
+   **`service_role` key** (not the `anon` key — the service role key is what lets the server-side
+   booking endpoints read and write, since the table has no public policies; see the comments in
+   `supabase/schema.sql` for why that's intentional).
+4. **Add them to Vercel**: **Settings → Environment Variables** → add `SUPABASE_URL` and
+   `SUPABASE_SERVICE_ROLE_KEY` with those values (Production, and Preview if you want). Redeploy
+   once they're set.
+
+Until this is set up, booking requests still get emailed as before (see below) — they just won't
+appear on the calendar yet.
+
+### Who can see it
+
+The Bookings tab is behind the same admin password as the rest of the panel (`/admin/login`), sent
+as a header on each request to `api/admin-bookings.ts`. Same caveat as the rest of the admin panel:
+this is a casual gate, not real security — good enough to keep random visitors out, not a vault.
+
+## Driver accounts & the driver portal
+
+Drivers sign in at **`/driver/login`** to see their own agenda — a chronological list of upcoming
+pickups/drop-offs grouped by day (not a month grid; on the small screens drivers actually use for
+this, a scrolling agenda is easier to read than a calendar grid), each card showing the customer
+name, pickup and drop-off location and time, vehicle, any extras/notes, and the customer's phone
+(tap-to-call / tap-to-WhatsApp). A driver only ever sees bookings assigned to them.
+
+- **Creating driver accounts:** there's no self-service sign-up. An admin creates each driver from
+  the **Drivers** tab in the admin panel (name, email, phone, a password) — do this once per driver
+  before they can sign in. The same tab can deactivate a driver (blocks sign-in without deleting
+  their history) or reset a forgotten password.
+- **Assigning a driver to a booking:** on the **Bookings** tab, once a booking is **Confirmed**, a
+  driver dropdown appears on it. Assigning (or reassigning) a driver resets that booking's trip
+  status back to **Pickup Pending**, and emails the driver + your admin inbox with the full trip
+  details.
+- **Trip status:** from their agenda, a driver taps through **Pickup Pending → Picked Up → In
+  Transit → Dropped Off → Completed** as the trip actually happens. This is separate from the
+  booking's own **Pending/Confirmed/Cancelled** status — one is "did we agree to this booking",
+  the other is "where is it right now" — and both are visible together on the admin Bookings tab.
+- **Setup:** requires `DRIVER_AUTH_SECRET` to be set in Vercel (see `.env.example`) — without it,
+  driver sign-in fails. Everything else (the `drivers` table, RLS) comes from `supabase/schema.sql`
+  along with the booking calendar's setup above.
+
+## Notifications & the reminder cron
+
+Beyond the immediate emails sent when a booking is confirmed/cancelled or a driver is assigned
+(above), a scheduled job (`api/notify-cron.ts`) periodically checks for bookings whose pickup or
+drop-off is coming up soon or happening right now, and emails a reminder to your admin inbox and
+the assigned driver — each booking/event is only ever reminded once per stage, so nobody gets
+spammed on every cron run. The same job checks upcoming vehicle service dates (see below) and sends
+a "service due soon" reminder to your admin inbox.
+
+- **Setup:** requires `CRON_SECRET` to be set in Vercel (see `.env.example` for how it's used) —
+  Vercel automatically authenticates its own cron calls with it, so you don't wire this up
+  yourself. `RESEND_API_KEY` (below) must also be set, since reminders are sent the same way as
+  every other email in this app.
+- **Scheduling caveat (Vercel Hobby plan):** this repo's `vercel.json` schedules the cron every 15
+  minutes, but **Vercel's free Hobby plan only runs cron jobs once a day**, regardless of what the
+  schedule says — sub-daily cron requires a Pro plan. If you're on Hobby and want closer-to-real-time
+  reminders, use a free external pinger instead (e.g. [cron-job.org](https://cron-job.org)) to hit
+  `https://yourdomain.com/api/notify-cron` every 15 minutes with an `Authorization: Bearer
+  <CRON_SECRET>` header — the endpoint itself doesn't care who calls it, only that the header
+  matches.
+
+## Vehicle service & maintenance calendar
+
+The admin panel's **Service** tab is a separate calendar for tracking servicing, maintenance,
+inspections, insurance renewals and similar vehicle-related events — independent of customer
+bookings. Each entry records the vehicle, service type, date/time, mileage, provider, cost, the
+next service date, notes, and any supporting documents (invoices, receipts — PDFs or images, up to
+8MB each).
+
+- **"Unavailable" vehicles:** a service event has a start date and an "unavailable until" date. A
+  vehicle currently inside that window shows an **"In service until [date]"** badge on the Fleet &
+  Rates tab, so admins can see at a glance which vehicles are off the road. **This is informational
+  only** — it does not block or hide that vehicle on the public booking form, since this project's
+  booking flow is request-based (every request is manually reviewed and confirmed by an admin, not
+  auto-approved against live availability), so the actual availability check happens when you
+  confirm the booking, same as it always has.
+- **Service-due reminders:** when a vehicle's `next_service_date` is within 7 days, the same
+  reminder cron described above emails your admin inbox once.
+- **Documents:** uploaded documents are stored in a private Supabase Storage bucket (created by
+  `supabase/schema.sql`) — never public — and served back to the admin panel via short-lived
+  (1-hour) signed links generated fresh each time you view them.
+- **Setup:** uses the same `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` as the booking calendar —
+  no separate credentials needed.
+
 ## Booking requests & email
 
 Clicking **Check availability** (once a pick-up date, and a drop-off date for rentals, are filled
 in) opens a "Request this booking" form asking for the customer's name, email and phone. Submitting
-it sends **two emails** via a small serverless function (`api/book.ts`, deployed automatically by
-Vercel — no extra config needed): one to your business inbox with the full trip + contact details,
-and a confirmation to the customer. This is a **booking request**, not a payment: no card details
-are collected anywhere on the site, and no real-time inventory system is checked — you still
-confirm each booking yourself.
+it stores the request in Supabase (see above, for the admin calendar) and sends **two emails** via
+a small serverless function (`api/book.ts`, deployed automatically by Vercel — no extra config
+needed): one to your business inbox with the full trip + contact details, and a confirmation to the
+customer. This is a **booking request**, not a payment: no card details are collected anywhere on
+the site, and no real-time inventory system is checked — you still confirm each booking yourself.
 
 ### Set this up (one-time)
 

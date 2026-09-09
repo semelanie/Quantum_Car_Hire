@@ -5,9 +5,15 @@ import type { Vehicle } from '../types/vehicle';
 
 interface VehicleEditorProps {
   vehicle: Vehicle;
+  /** Set when this vehicle currently has an open service/maintenance window. */
+  unavailableUntil?: string | null;
 }
 
-export default function VehicleEditor({ vehicle }: VehicleEditorProps) {
+function formatShortDate(d: string): string {
+  return new Date(`${d}T00:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+}
+
+export default function VehicleEditor({ vehicle, unavailableUntil }: VehicleEditorProps) {
   const { updateVehicle, resetVehicle, isVehicleModified } = useVehicles();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
@@ -63,6 +69,7 @@ export default function VehicleEditor({ vehicle }: VehicleEditorProps) {
         <h2>
           {vehicle.name || <span className="admin-placeholder">Untitled vehicle</span>}
           {modified && <span className="admin-badge">Edited</span>}
+          {unavailableUntil && <span className="admin-badge admin-badge--service">In service until {formatShortDate(unavailableUntil)}</span>}
         </h2>
         <button
           type="button"
