@@ -142,6 +142,42 @@
   gap: 10px;
   flex-wrap: wrap;
 }
+.admin-save-indicator {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: #cfe0f2;
+  white-space: nowrap;
+}
+.admin-save-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #8fb0d6;
+  flex-shrink: 0;
+}
+.admin-save-indicator[data-status='saving'] .admin-save-dot {
+  background: var(--gold);
+  animation: admin-save-pulse 1s ease-in-out infinite;
+}
+.admin-save-indicator[data-status='saved'] {
+  color: #bfe3c9;
+}
+.admin-save-indicator[data-status='saved'] .admin-save-dot {
+  background: #6fcf8e;
+}
+@keyframes admin-save-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.7);
+  }
+}
 .admin-content {
   max-width: 1080px;
   margin: 0 auto;
@@ -181,6 +217,10 @@
   }
   .admin-topbar-inner h1 {
     font-size: 1.1rem;
+  }
+  .admin-save-indicator {
+    width: 100%;
+    font-size: 0.78rem;
   }
   .admin-topbar-actions {
     width: 100%;

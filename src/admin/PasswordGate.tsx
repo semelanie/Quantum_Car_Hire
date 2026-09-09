@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import logo from '../assets/logo.jpeg';
+import logo from '../assets/logo-transparent.png';
 import { ADMIN_PASSWORD, ADMIN_SESSION_KEY } from './config';
 
 interface PasswordGateProps {

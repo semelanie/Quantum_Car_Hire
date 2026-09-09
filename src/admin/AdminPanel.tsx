@@ -9,8 +9,12 @@ interface AdminPanelProps {
   onLogout: () => void;
 }
 
+function formatSavedTime(timestamp: number): string {
+  return new Date(timestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+}
+
 export default function AdminPanel({ onLogout }: AdminPanelProps) {
-  const { vehicles, resetAll } = useVehicles();
+  const { vehicles, resetAll, saveStatus, lastSavedAt } = useVehicles();
   const [exporting, setExporting] = useState<'json' | 'ts' | null>(null);
   const [exportError, setExportError] = useState<string | null>(null);
 
@@ -49,6 +53,14 @@ export default function AdminPanel({ onLogout }: AdminPanelProps) {
           <div>
             <span className="eyebrow">Quantum Car Hire</span>
             <h1>Admin panel</h1>
+          </div>
+          <div className="admin-save-indicator" data-status={saveStatus} aria-live="polite">
+            <span className="admin-save-dot" aria-hidden="true" />
+            <span>
+              {saveStatus === 'saving' && 'Saving…'}
+              {saveStatus === 'saved' && (lastSavedAt ? `Saved at ${formatSavedTime(lastSavedAt)}` : 'Saved')}
+              {saveStatus === 'idle' && 'Autosave on'}
+            </span>
           </div>
           <div className="admin-topbar-actions">
             <Link className="btn btn-ghost" to="/" target="_blank" rel="noopener noreferrer">
