@@ -1,3 +1,4 @@
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAGYktHRAAAAAAAAPlDu38AAAAHdElNRQfqCg0KMDrXDDivAAAFKUlEQVRYw+3VS2yc1RUH8HPuvd/9vm++GXv8GHs8eUHsxDEPh9CAQpqIAF7QIoVNRCVUWLQCqaggIYQESCwqsUKRWJAFrcQGFkAWbRctkaiblEThEcUCQkichxUbbCfjGc94Ht/rfvfe0xVsEBKoC6TKv/VZ/PWXzjkA69atW/czwx8ztPPXz+XqjfaoJbgNEDZwhi4iKmtJCcGBLHWB7OW8735+4d+vd/7nAIMTv+eWwgFj9A4C2EeIex3Pa3NHHgfGzgKyZYdj6Ai0niukUnooU9kvrNajoLOPBnq801+efFP9qAAHDj41XF3pDCVRSpZIBnm/5EncKpjeKpgpSQGeK0GNbfTPjZfxwmhFLlZ6ulUNLHYcmQ6VvKyy/4gFABiY/N1m1OHjlGUuWfaO0rYOABYRjOBM9xQ8VRkpqo+PHaHvArx9+NGpVit+9HJj+OPjM52Z/XdtgV3jAR8rp/FIT5oEUmmdKVZvJjmV6TwDyINVOWOMD2AdJCLkXCFCIqSXzt2Q/e+fiQ+kGpS12EgyNJFiJlGoVxpJR6U6YQjzDhdfXPni3QZ+cvSp3f+ciW86cW2gW2sZnWX6m6n92y7/5U/P0A/VFsUNnD32IhsMYnm9rn0A8Dm3knFHBLkc9PXlTKQYGeJa2Zzt6ByFpkh/n15IT5xZnugm2SEJ9HUgxd9ww94nHiLCm4u9+b8aa5wwTB5jDI7fvKl8XinlPjK1tX50em4o77uNlMjoTOeRic6u8RKeOrsw3GzHq+XhAcgM5bvdVLfCeAARsOC7TUeAzOe8jiPApKnOo8C03Y48kaUskCyQjvC52zf+EmN09NrJN66uzn3aCkYmMUvSB+I0a0ex2vHOkZcvBeXJe62lxWp9ra+22nksCsMLH7z1SlLYuOtx0mpMMFrSWXZruc9rdjqtPS6z27ZUivPXr9em4ihcE1Jilqnbo1h5SZz+Zt9Y6V+zK+G+tVhtFxCGgCmab+s1zaa2AElqtOWCEwBA1mprQCLdad+ShKlLjnM3AEybOPqKjBlrV6OHXM+/+p9jr9X6tz/8jed7xRMn/3xjaOKQ1SazgZTWGKMZmARTJU6du3aAS1mJwzjlxf7t6DC289UXfpV78uDmfStNvLU355xm1tbSbrKjsmlnwqwpgtZNZmnc4XgOVLZ7dOzO82ErHMm54pRO0gkdh+5abfar3uLoZkHkt+uXrvYPjo/4nA9xrX3UKoYklqRUVafqHtTqcx1G/bxUvuWK4CK6vJD0u0IHD++B8Qd2Ad473hheavqfLa0a9Dx5gQMoJFo+dPCOKxdnr68Evgg5Z91iIbeWRvF5h+NivXox3rBpMnE4W1mtXuwOVyaXCYghQJTz5BWGoDzpLBLZc67AJQZQ/d4h+sfh+37b6ax4gqNTKFYuPfjMB8dnpg+jYBx33v+s/ePrXTzydJ4AAGrVo9hoBuAXSrB69UPgLA+T+/9AM9OvoTUpcs7pzqnnf3CbAABw9ux7fthc6u3U5lzHyxurtLsyd+aXhJnu6R0sDGzd8z5RFghZMFFzISKruSVbAqB2acvua7X5mb1MuItufmiDUeESWLPFCfoXtIpGrE4WjAql4wWIQi77/dt4WP+6GLVuCL8wqIrlia4AQA5ELiLLAZHt2zjRkNJ/r9tcch2JfcZklozqZS6mKIM+q2IftHGRC6l1Os+EX0EmYp2lQ8BlnXRYVtHavFJJ7HhBiTm5QWMoZY6rEfkaAPnImENECEDJT/pc69atW/d/6b/1M7+837rNGgAAAABJRU5ErkJggg==">
 <title>Quantum Car Hire &mdash; Mahe, Seychelles</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap">
 <style>
@@ -2507,6 +2508,39 @@ var FLEET_SPECS = {
   'Suzuki Ertiga': { seats:7, trans:'Automatic', doors:5, ac:true }
 };
 
+
+function openFleetModal(v) {
+  var m = document.getElementById('fleetInfoModal');
+  if (!m) return;
+  var specs = FLEET_SPECS[v.name] || {seats:5,trans:'Automatic',doors:5,ac:true};
+  var price = FLEET_PRICES[v.name] || 'On Request';
+  document.getElementById('fim-cat').textContent = v.cat || '';
+  document.getElementById('fim-name').textContent = v.name;
+  document.getElementById('fim-similar').textContent = v.similar ? 'or similar — ' + v.similar : '';
+  document.getElementById('fim-img').src = v.img || '';
+  document.getElementById('fim-img').alt = v.name;
+  document.getElementById('fim-price').textContent = typeof price === 'number' ? 'SCR ' + price.toLocaleString() + '/day' : price;
+  var specHtml = [
+    ['Seats', specs.seats || 5],
+    ['Transmission', specs.trans || 'Automatic'],
+    ['Doors', specs.doors || 4],
+    ['Air Conditioning', specs.ac !== false ? 'Yes' : 'No'],
+    ['Category', v.cat || '—'],
+    ['Luggage', specs.luggage || '—']
+  ].map(function(s){
+    return '<div style="background:var(--bg-alt);border-radius:8px;padding:12px 14px;">' +
+      '<div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">' + s[0] + '</div>' +
+      '<div style="font-size:15px;font-weight:600;color:var(--text);">' + s[1] + '</div></div>';
+  }).join('');
+  document.getElementById('fim-specs').innerHTML = specHtml;
+  m.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeFleetModal() {
+  var m = document.getElementById('fleetInfoModal');
+  if (m) { m.style.display = 'none'; document.body.style.overflow = ''; }
+}
+
 function buildFleetCards(filter) {
   var grid = document.getElementById('fleetGrid');
   if (!grid) return;
@@ -2526,6 +2560,8 @@ function buildFleetCards(filter) {
     var bagLabel = {'Suzuki Ertiga':'2+2 bag(s)','Suzuki Brezza':'1+2 bag(s)','Suzuki Swift':'1+2 bag(s)','Suzuki Jimny':'1+2 bag(s)'};
     if (featuredNames.indexOf(v.name) > -1) {
       card.className = featuredClass[v.name];
+      card.style.cursor = 'pointer';
+      card.onclick = (function(vv){ return function(){ openFleetModal(vv); }; })(v);
       card.innerHTML =
         '<div class="fc-img-wrap">' +
           '<img src="' + v.img + '" alt="' + v.name + '" class="fc-car-img">' +
@@ -2549,6 +2585,8 @@ function buildFleetCards(filter) {
         '</div>';
     } else {
       card.className = 'fleet-card';
+      card.style.cursor = 'pointer';
+      card.onclick = (function(vv){ return function(){ openFleetModal(vv); }; })(v);
       card.innerHTML =
         '<div class="fleet-img">' +
           '<img src="' + v.img + '" alt="' + v.name + '" class="fleet-car-img" style="width:100%;height:100%;object-fit:cover;">' +
@@ -2926,7 +2964,10 @@ function wzOpenWizard(serviceType) {
     var inr = document.getElementById('inDropoff');
     if (inr) inr.value = qr.value;
   }
-  document.getElementById('wizardCard').classList.add('wz-open');
+  var wc = document.getElementById('wizardCard');
+  wc.classList.add('wz-open');
+  var steps = document.getElementById('wzSteps');
+  if (steps) steps.classList.add('wz-active');
   wzGoTo(1);
   if (serviceType) {
     var svcCard = document.querySelector('.wz-svc-card[onclick*=\'" + serviceType + "\']');
@@ -3387,13 +3428,21 @@ window.rvMove = function(dir){ clearInterval(timer); goTo(current+dir); startTim
 
 function openLegalModal(section) {
   var overlay = document.getElementById('legalModalOverlay');
+  // Close all sections first
+  document.querySelectorAll('.lm-acc-group').forEach(function(g){
+    g.classList.remove('open');
+    var h = g.querySelector('.lm-acc-header');
+    if (h) h.setAttribute('aria-expanded','false');
+  });
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   if (section) {
     var grp = document.getElementById('lm-' + section);
-    if (grp && !grp.classList.contains('open')) {
+    if (grp) {
       grp.classList.add('open');
-      grp.querySelector('.lm-acc-header').setAttribute('aria-expanded','true');
+      var h = grp.querySelector('.lm-acc-header');
+      if (h) h.setAttribute('aria-expanded','true');
+      setTimeout(function(){ grp.scrollIntoView({ behavior:'smooth', block:'start' }); }, 100);
     }
   }
 }
@@ -3619,5 +3668,33 @@ async function submitEnquiry(e) {
 })();
 </script>
 
+
+<!-- FLEET INFO MODAL -->
+<div id="fleetInfoModal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px;" onclick="if(event.target===this)closeFleetModal()">
+  <div style="background:var(--bg);border-radius:16px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.4);">
+    <div id="fim-head" style="background:linear-gradient(135deg,var(--navy-d) 0%,var(--navy) 100%);padding:24px 28px;border-radius:16px 16px 0 0;display:flex;align-items:flex-start;gap:16px;justify-content:space-between;">
+      <div>
+        <div id="fim-cat" style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;"></div>
+        <h3 id="fim-name" style="font-family:'Cormorant Garamond',serif;font-size:28px;color:#fff;margin:0;font-weight:700;"></h3>
+        <div id="fim-similar" style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:4px;"></div>
+      </div>
+      <button onclick="closeFleetModal()" style="background:rgba(255,255,255,0.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">&times;</button>
+    </div>
+    <div id="fim-img-wrap" style="background:var(--bg-alt);padding:24px;text-align:center;">
+      <img id="fim-img" src="" alt="" style="max-height:200px;max-width:100%;object-fit:contain;">
+    </div>
+    <div style="padding:24px 28px;">
+      <div id="fim-specs" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;"></div>
+      <div id="fim-price-row" style="background:var(--bg-alt);border-radius:10px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <div style="font-size:13px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Daily Rate</div>
+        <div id="fim-price" style="font-size:24px;font-weight:700;color:var(--gold);font-family:'Cormorant Garamond',serif;"></div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button onclick="closeFleetModal();wzOpenWizard();" style="flex:1;min-width:140px;padding:13px 20px;background:var(--gold);border:none;color:#fff;font-weight:700;border-radius:8px;cursor:pointer;font-size:15px;">Book This Vehicle</button>
+        <a href="#contact" onclick="closeFleetModal();" style="flex:1;min-width:140px;padding:13px 20px;background:transparent;border:2px solid var(--navy);color:var(--navy);font-weight:700;border-radius:8px;cursor:pointer;font-size:15px;text-align:center;text-decoration:none;">Make Enquiry</a>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
