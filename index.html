@@ -75,7 +75,7 @@ button { cursor: pointer; font-family: inherit; }
 .nav-mobile-btn svg { width: 22px; height: 22px; fill: currentColor; }
 
 /* HERO */
-.hero { position: relative; background: #0d1640; overflow: hidden; min-height: 520px; display: flex; align-items: stretch; }
+.hero { position: relative; background: #0d1640; overflow: hidden; min-height: 460px; display: flex; align-items: stretch; }
 .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: var(--gold-grad); z-index: 3; }
 /* Hero right banner */
 .hero-banner { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
@@ -84,7 +84,7 @@ button { cursor: pointer; font-family: inherit; }
 .hero-banner::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 80px; background: linear-gradient(to top, rgba(11,18,58,0.7) 0%, transparent 100%); z-index: 1; pointer-events: none; }
 .hero-banner-caption { position: absolute; bottom: 20px; right: 24px; z-index: 2; background: rgba(0,0,0,0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 6px 14px; font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.75); letter-spacing: 0.04em; }
 /* Hero left: text content */
-.hero-content { position: relative; z-index: 2; width: 100%; flex-shrink: 0; padding: 90px 5% 110px 8%; background: transparent; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; max-width: 580px; }
+.hero-content { position: relative; z-index: 2; width: 100%; flex-shrink: 0; padding: 60px 5% 72px 8%; background: transparent; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; max-width: 580px; }
 /* Hero right: cars panel */
 .hero-scene { display: none; }
 /* Cars side by side in right panel */
@@ -114,7 +114,7 @@ button { cursor: pointer; font-family: inherit; }
 /* ═══════════════════════════════
    BOOKING WIZARD
 ═══════════════════════════════ */
-.booking-section { display: block; position: relative; z-index: 10; margin-top: -60px; padding: 0 40px 0; }
+.booking-section { display: block; position: relative; z-index: 10; margin-top: -60px; padding: 0 40px 40px; background: #0d1640; }
 .booking-section.wz-visible { display: block; }
 .booking-card { background: var(--bg); border-radius: var(--radius-l); box-shadow: var(--shadow-l); max-width: 1100px; margin: 0 auto; border: 1px solid var(--border); border-top: 3px solid var(--gold); overflow: hidden; }
 
@@ -287,7 +287,7 @@ button { cursor: pointer; font-family: inherit; }
 .wz-success p { font-size: 14px; color: var(--text-2); max-width: 360px; margin: 0 auto; }
 
 @media (max-width: 700px) {
-  .booking-section { padding: 0 16px; }
+  .booking-section { padding: 0 16px 40px; background: #0d1640; }
   .wz-fleet-grid { grid-template-columns: 1fr; }
   .wz-add-grid { grid-template-columns: 1fr; }
   .wz-fields-grid { grid-template-columns: 1fr; }
@@ -559,7 +559,7 @@ footer.footer-v2 { background: #0d1117; color: rgba(255,255,255,0.55); padding: 
   .hero-banner { display: block !important; position: absolute; inset: 0; }
   .hero-banner img { object-position: 65% center; }
   .hero-banner::before { background: linear-gradient(to right, rgba(8,13,45,0.95) 0%, rgba(8,13,45,0.80) 45%, rgba(8,13,45,0.20) 75%, transparent 100%); }
-  .booking-section { padding: 0 16px; }
+  .booking-section { padding: 0 16px 40px; background: #0d1640; }
   .booking-card { padding: 20px 16px; }
   .booking-grid { grid-template-columns: 1fr; }
   .section { padding: 72px 0; }
@@ -583,6 +583,73 @@ footer.footer-v2 { background: #0d1117; color: rgba(255,255,255,0.55); padding: 
   .footer-bottom { flex-direction: column; text-align: center; }
   .hero-badges { display: none; }
 }
+
+
+/* ── CUSTOM LOCATION DROPDOWN ── */
+.qloc-wrap { position: relative; flex: 1; }
+.qloc-input { width: 100%; border: none; background: transparent; font-size: 14px; font-weight: 600;
+  color: #1B2B6B; outline: none; font-family: 'Inter', sans-serif; box-sizing: border-box; cursor: pointer; }
+.qloc-dropdown { display: none; position: absolute; top: calc(100% + 8px); left: -18px;
+  min-width: 320px; max-width: 380px; max-height: 340px; overflow-y: auto; background: #fff;
+  border: 1.5px solid rgba(27,43,107,0.18); border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(27,43,107,0.18); z-index: 9999; }
+.qloc-dropdown.open { display: block; }
+.qloc-search-wrap { padding: 10px 12px; border-bottom: 1px solid rgba(27,43,107,0.10); position: sticky; top: 0; background: #fff; }
+.qloc-search { width: 100%; border: 1.5px solid rgba(27,43,107,0.20); border-radius: 8px; padding: 7px 10px;
+  font-size: 13px; font-family: 'Inter', sans-serif; outline: none; color: #1B2B6B; }
+.qloc-search:focus { border-color: #B8962E; }
+.qloc-group-label { padding: 8px 14px 4px; font-size: 10px; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #8A96B0; }
+.qloc-opt { display: flex; align-items: center; gap: 10px; padding: 9px 14px; cursor: pointer;
+  font-size: 13px; font-weight: 500; color: #1B2B6B; transition: background 0.12s; }
+.qloc-opt:hover, .qloc-opt.highlighted { background: rgba(184,150,46,0.08); }
+.qloc-opt-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0; }
+.qloc-opt-icon.airport { background: rgba(27,43,107,0.10); }
+.qloc-opt-icon.hotel   { background: rgba(184,150,46,0.12); }
+.qloc-opt-icon.villa   { background: rgba(22,96,50,0.10); }
+.qloc-opt-icon.other   { background: rgba(27,43,107,0.06); }
+.qloc-opt-text { flex: 1; }
+.qloc-opt-cat  { font-size: 10px; font-weight: 600; color: #8A96B0; letter-spacing: 0.04em; }
+.qloc-no-results { padding: 16px 14px; font-size: 13px; color: #8A96B0; text-align: center; }
+
+
+/* ── FIX: Prevent section title clipping ── */
+.section-header, .section-title-wrap {
+  overflow: visible !important;
+}
+.section-title {
+  overflow: visible !important;
+  white-space: normal !important;
+  text-overflow: clip !important;
+}
+.section-title em {
+  padding-bottom: 0.15em;
+  display: inline-block;
+  overflow: visible;
+}
+/* Ensure gold gradient text never clips */
+h1 em, h2 em, h3 em {
+  padding-bottom: 0.12em;
+  overflow: visible !important;
+}
+
+
+/* ── FIX 5: Fleet card visual cleanup ── */
+.fc-body { padding: 14px 18px 16px !important; }
+.fc-name { font-family: 'Cormorant Garamond', serif; font-size: 19px !important; font-weight: 700; color: #fff; margin-bottom: 2px; line-height: 1.2; }
+.fc-sub  { font-size: 11px !important; color: rgba(255,255,255,0.45); margin-bottom: 10px; }
+.fc-specs { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-bottom: 14px; }
+.fc-spec { display: flex; align-items: center; gap: 5px; font-size: 11px !important; color: rgba(255,255,255,0.60); font-weight: 500; }
+.fc-spec svg { width: 12px; height: 12px; fill: var(--gold-d); }
+.fc-footer { display: flex; align-items: center; justify-content: space-between;
+  padding-top: 12px; border-top: 1px solid rgba(184,150,46,0.22); }
+.fc-price { font-size: 22px !important; font-weight: 800; color: var(--gold-l); }
+.fc-price-unit { font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.45); margin-left: 2px; }
+.fc-btn { background: rgba(184,150,46,0.15); border: 1px solid rgba(184,150,46,0.35);
+  color: var(--gold-l); border-radius: 8px; padding: 8px 16px; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: background 0.18s, border-color 0.18s; white-space: nowrap; }
+.fc-btn:hover { background: var(--gold); color: var(--navy-d); border-color: var(--gold); }
 
 /* FAQ CATEGORY TABS */
 .faq-tabs-wrap{max-width:780px;margin:0 auto;}
@@ -925,9 +992,9 @@ footer.footer-v2 { background: #0d1117; color: rgba(255,255,255,0.55); padding: 
   .nav-logo img { height: 40px; }
 
   /* HERO — phone: stack image behind, text full width */
-  .hero { min-height: 100svh; flex-direction: column; }
+  .hero { min-height: 88svh; flex-direction: column; }
   .hero-content {
-    padding: 90px 24px 48px;
+    padding: 72px 24px 40px;
     max-width: 100%;
     background: none;
   }
@@ -944,7 +1011,7 @@ footer.footer-v2 { background: #0d1117; color: rgba(255,255,255,0.55); padding: 
   .hero-scene { display: none; }
 
   /* BOOKING SECTION */
-  .booking-section { padding: 0 12px; margin-top: -20px; }
+  .booking-section { padding: 0 12px 32px; margin-top: -20px; background: #0d1640; }
   .booking-card { padding: 16px 12px 20px; border-radius: 14px; }
   .booking-card .qf-tabs { gap: 0; }
   .booking-card .qf-tab { padding: 12px 14px 10px; font-size: 12px; }
@@ -1061,15 +1128,15 @@ footer.footer-v2 { background: #0d1117; color: rgba(255,255,255,0.55); padding: 
 /* ── Tablet tweaks 641–900px ─────────────────────── */
 @media (min-width: 641px) and (max-width: 900px) {
   /* HERO — tablet: image behind, left text panel */
-  .hero { min-height: 480px; }
-  .hero-content { padding: 90px 5% 80px 5%; max-width: 55%; }
+  .hero { min-height: 420px; }
+  .hero-content { padding: 60px 5% 60px 5%; max-width: 55%; }
   .hero h1 { font-size: clamp(32px, 4.5vw, 48px); }
   .hero-sub { font-size: 15px; }
   .hero-banner img { object-position: 70% center; }
   .hero-banner::before { background: linear-gradient(to right, rgba(8,13,45,0.95) 0%, rgba(8,13,45,0.85) 38%, rgba(8,13,45,0.30) 60%, transparent 78%); }
 
   /* LAYOUT */
-  .booking-section { padding: 0 24px; }
+  .booking-section { padding: 0 24px 40px; background: #0d1640; }
   .booking-grid { grid-template-columns: 1fr 1fr; }
   .fleet-grid { grid-template-columns: repeat(2, 1fr); }
   .why-features { grid-template-columns: 1fr 1fr; }
@@ -1225,7 +1292,7 @@ select.wz-input:focus {
 }
 
 /* ── Wave divider between FAQ and Reviews ── */
-.section-divider-wave { display: block; line-height: 0; margin: 0; padding: 32px 0; overflow: visible; background: linear-gradient(155deg, var(--navy-d) 0%, var(--navy) 100%); position: relative; z-index: 2; }
+.section-divider-wave { display: block; line-height: 0; margin: 0; padding: 28px 0; overflow: visible; background: linear-gradient(155deg, var(--navy-d) 0%, var(--navy) 100%); position: relative; z-index: 2; }
 .section-divider-wave svg { display: block; width: 100%; overflow: visible; }
 
 /* Special Deals section-header left-align */
@@ -1352,48 +1419,28 @@ select.wz-input:focus {
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;background:#edf0f8;border-radius:12px 12px 0 0;border:1.5px solid rgba(27,43,107,0.2);border-bottom:none;overflow:hidden;">
       <div id="qfPickupCol" style="padding:14px 18px;border-right:1.5px solid rgba(27,43,107,0.15);">
         <div style="font-size:10px;font-weight:800;color:#1B2B6B;letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px;">Pickup location</div>
-        <input list="qfLocList" id="qfPickupLoc" placeholder="Type or select location…" autocomplete="off" style="width:100%;border:none;background:transparent;font-size:14px;font-weight:600;color:#1B2B6B;outline:none;font-family:'Inter',sans-serif;box-sizing:border-box;">
+        <div class="qloc-wrap" id="qfPickupWrap">
+          <input type="text" id="qfPickupLoc" placeholder="Type or select location…" autocomplete="off" class="qloc-input" readonly onfocus="qlocOpen('pickup')" oninput="qlocFilter('pickup',this.value)">
+          <div class="qloc-dropdown" id="qfPickupDrop">
+            <div class="qloc-search-wrap"><input type="text" class="qloc-search" id="qfPickupSearch" placeholder="Search locations…" oninput="qlocFilter('pickup',this.value)" autocomplete="off"></div>
+            <div id="qfPickupList"></div>
+          </div>
+        </div>
       </div>
       <div id="qfReturnCol" style="padding:14px 18px;">
         <div style="font-size:10px;font-weight:800;color:#1B2B6B;letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px;">Return location</div>
-        <input list="qfLocList" id="qfReturnLoc" placeholder="Type or select location…" autocomplete="off" style="width:100%;border:none;background:transparent;font-size:14px;font-weight:600;color:#1B2B6B;outline:none;font-family:'Inter',sans-serif;box-sizing:border-box;">
+        <div class="qloc-wrap" id="qfReturnWrap">
+          <input type="text" id="qfReturnLoc" placeholder="Type or select location…" autocomplete="off" class="qloc-input" readonly onfocus="qlocOpen('return')" oninput="qlocFilter('return',this.value)">
+          <div class="qloc-dropdown" id="qfReturnDrop">
+            <div class="qloc-search-wrap"><input type="text" class="qloc-search" id="qfReturnSearch" placeholder="Search locations…" oninput="qlocFilter('return',this.value)" autocomplete="off"></div>
+            <div id="qfReturnList"></div>
+          </div>
+        </div>
       </div>
       <!-- Shared datalist for all Mahé locations -->
-      <datalist id="qfLocList">
-        <option value="Seychelles International Airport (SEZ)">
-        <option value="Victoria Harbour / Inter-Island Quay">
-        <option value="Victoria (town centre)">
-        <option value="Perseverance">
-        <option value="Glacis">
-        <option value="Anse Royale">
-        <option value="Grand Anse Mahé">
-        <option value="Takamaka">
-        <option value="Port Launay">
-        <option value="Anse Soleil">
-        <option value="Anse Intendance">
-        <option value="Beau Vallon Beach">
-        <option value="Eden Island Marina">
-        <option value="Four Seasons Resort Seychelles">
-        <option value="Maia Luxury Resort & Spa">
-        <option value="Kempinski Seychelles Resort (Baie Lazare)">
-        <option value="Raffles Seychelles (Praslin — ferry connection)">
-        <option value="North Island Lodge">
-        <option value="Hilton Seychelles Northolme Resort & Spa">
-        <option value="Savoy Resort & Spa (Beau Vallon)">
-        <option value="Constance Ephelia Resort">
-        <option value="Le Meridien Fisherman's Cove">
-        <option value="Berjaya Beau Vallon Bay Resort">
-        <option value="Carana Beach Hotel">
-        <option value="Coral Strand Smart Choice Hotel">
-        <option value="Fisherman's Cove Resort">
-        <option value="Sunset Beach Hotel (Glacis)">
-        <option value="Bliss Hotel Seychelles">
-        <option value="L'Archipel">
-        <option value="Anse Soleil Beachcomber">
-        <option value="Cerf Island Resort">
-        <option value="Blue Lagoon Chalets">
-        <option value="La Digue Island Lodge (ferry)">
-      </datalist>
+      <!-- Hidden input for form submission — populated by custom dropdowns -->
+      <input type="hidden" id="qfPickupLocVal">
+      <input type="hidden" id="qfReturnLocVal">
     </div>
 
     <!-- Row 2: date/time + CTA -->
@@ -1403,7 +1450,7 @@ select.wz-input:focus {
         <div style="display:flex;gap:8px;align-items:center;">
           <input type="date" id="qfPickup" style="border:none;background:transparent;font-size:14px;font-weight:600;color:#1a1a2e;outline:none;font-family:'Inter',sans-serif;min-width:0;flex:1;">
           <select id="qfPickupTime" style="border:none;background:transparent;font-size:14px;font-weight:600;color:#1a1a2e;outline:none;cursor:pointer;font-family:'Inter',sans-serif;-webkit-appearance:none;appearance:none;">
-            <option>08:00</option><option>09:00</option><option>10:00</option><option>11:00</option><option>12:00</option><option>13:00</option><option selected>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option><option>18:00</option>
+            <option>08:00</option><option>08:15</option><option>08:30</option><option>08:45</option><option>09:00</option><option>09:15</option><option>09:30</option><option>09:45</option><option>10:00</option><option>10:15</option><option>10:30</option><option>10:45</option><option>11:00</option><option>11:15</option><option>11:30</option><option>11:45</option><option>12:00</option><option>12:15</option><option>12:30</option><option>12:45</option><option>13:00</option><option>13:15</option><option>13:30</option><option>13:45</option><option selected>14:00</option><option>14:15</option><option>14:30</option><option>14:45</option><option>15:00</option><option>15:15</option><option>15:30</option><option>15:45</option><option>16:00</option><option>16:15</option><option>16:30</option><option>16:45</option><option>17:00</option><option>17:15</option><option>17:30</option><option>17:45</option><option>18:00</option>
           </select>
         </div>
       </div>
@@ -1412,7 +1459,7 @@ select.wz-input:focus {
         <div style="display:flex;gap:8px;align-items:center;">
           <input type="date" id="qfReturn" style="border:none;background:transparent;font-size:14px;font-weight:600;color:#1a1a2e;outline:none;font-family:'Inter',sans-serif;min-width:0;flex:1;">
           <select id="qfReturnTime" style="border:none;background:transparent;font-size:14px;font-weight:600;color:#1a1a2e;outline:none;cursor:pointer;font-family:'Inter',sans-serif;-webkit-appearance:none;appearance:none;">
-            <option>08:00</option><option>09:00</option><option>10:00</option><option>11:00</option><option>12:00</option><option>13:00</option><option selected>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option><option>18:00</option>
+            <option>08:00</option><option>08:15</option><option>08:30</option><option>08:45</option><option>09:00</option><option>09:15</option><option>09:30</option><option>09:45</option><option>10:00</option><option>10:15</option><option>10:30</option><option>10:45</option><option>11:00</option><option>11:15</option><option>11:30</option><option>11:45</option><option>12:00</option><option>12:15</option><option>12:30</option><option>12:45</option><option>13:00</option><option>13:15</option><option>13:30</option><option>13:45</option><option selected>14:00</option><option>14:15</option><option>14:30</option><option>14:45</option><option>15:00</option><option>15:15</option><option>15:30</option><option>15:45</option><option>16:00</option><option>16:15</option><option>16:30</option><option>16:45</option><option>17:00</option><option>17:15</option><option>17:30</option><option>17:45</option><option>18:00</option>
           </select>
         </div>
       </div>
@@ -1952,10 +1999,10 @@ select.wz-input:focus {
 </section>
 
 <!-- TRANSITION: Booking → Fleet — gold line -->
-<div class="section-divider-wave" aria-hidden="true">
-  <svg viewBox="0 0 1440 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:20px;width:100%;display:block;">
+<div aria-hidden="true" style="display:block;line-height:0;margin:0;padding:0;overflow:hidden;position:relative;z-index:2;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:60px;width:100%;display:block;">
     <defs>
-      <linearGradient id="divGoldBF" x1="0%" y1="0%" x2="100%" y2="0%">
+      <linearGradient id="divGoldBF2" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%"   stop-color="#B8962E" stop-opacity="0"/>
         <stop offset="20%"  stop-color="#D4AF50" stop-opacity="0.8"/>
         <stop offset="50%"  stop-color="#f0d070" stop-opacity="1"/>
@@ -1963,10 +2010,15 @@ select.wz-input:focus {
         <stop offset="100%" stop-color="#B8962E" stop-opacity="0"/>
       </linearGradient>
     </defs>
-    <path d="M0,10 C240,2 480,18 720,9 C960,0 1200,16 1440,7"
-          fill="none" stroke="url(#divGoldBF)" stroke-width="6" opacity="0.13"/>
-    <path d="M0,10 C240,2 480,18 720,9 C960,0 1200,16 1440,7"
-          fill="none" stroke="url(#divGoldBF)" stroke-width="1.2" opacity="1"/>
+    <!-- top colour block -->
+    <rect x="0" y="0" width="1440" height="30" fill="#0d1640"/>
+    <!-- bottom colour block -->
+    <rect x="0" y="30" width="1440" height="30" fill="#1a2a5e"/>
+    <!-- gold wave — centred at y=30 -->
+    <path d="M0,30 C240,22 480,38 720,29 C960,20 1200,36 1440,27"
+          fill="none" stroke="url(#divGoldBF2)" stroke-width="10" opacity="0.13"/>
+    <path d="M0,30 C240,22 480,38 720,29 C960,20 1200,36 1440,27"
+          fill="none" stroke="url(#divGoldBF2)" stroke-width="1.5" opacity="1"/>
   </svg>
 </div>
 <!-- FLEET -->
@@ -2167,7 +2219,7 @@ select.wz-input:focus {
 </section>
 
 <!-- TRANSITION: Offers → FAQ — gold line -->
-<div class="section-divider-wave" aria-hidden="true">
+<div class="section-divider-wave" aria-hidden="true" style="background:linear-gradient(155deg,var(--navy-d) 0%,var(--navy) 100%);">
   <svg viewBox="0 0 1440 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:20px;width:100%;display:block;">
     <defs>
       <linearGradient id="divGoldOF" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -3548,69 +3600,109 @@ function wzBuildSummary() {
   el.innerHTML = '<div class="wz-cs-title">Booking Summary</div>' + summaryRows + costBlock;
 }
 
-function wzSubmit() {
+async function wzSubmit() {
   var name  = (document.getElementById('wz-name')  || {}).value || '';
   var phone = (document.getElementById('wz-phone') || {}).value || '';
   var email = (document.getElementById('wz-email') || {}).value || '';
   if (!name || !email) {
     alert('Please enter your name and email address.'); return;
   }
-  // Build email body
+
+  // Disable button, show sending state
+  var submitBtn = document.getElementById('wzSubmitBtn');
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+
+  // Build HTML email body
   var svc = WZ.service;
-  var body = 'NEW RESERVATION REQUEST — Quantum Car Hire\n';
-  body += '========================================\n';
-  body += 'Name:    ' + name + '\n';
-  body += 'Phone:   ' + (phone || 'Not provided') + '\n';
-  body += 'Email:   ' + email + '\n\n';
-  body += 'Service: ' + (svc==='hire'?'Car Hire':svc==='transfer'?'Transfer':'Tour') + '\n';
-  if (WZ.vehicleName) body += 'Vehicle: ' + WZ.vehicleName + '\n';
+  var rows = [];
+  rows.push('<b>Name:</b> ' + name);
+  rows.push('<b>Phone:</b> ' + (phone || 'Not provided'));
+  rows.push('<b>Email:</b> ' + email);
+  rows.push('<b>Service:</b> ' + (svc==='hire'?'Car Hire':svc==='transfer'?'Transfer':'Tour'));
+  if (WZ.vehicleName) rows.push('<b>Vehicle:</b> ' + WZ.vehicleName);
 
   if (svc === 'hire') {
-    body += 'Pickup:  ' + document.getElementById('wz-hire-pickup').value + '\n';
-    body += 'Return:  ' + document.getElementById('wz-hire-return').value + '\n';
-    body += 'From:    ' + document.getElementById('wz-hire-from').value + ' at ' + document.getElementById('wz-hire-from-time').value + '\n';
-    body += 'To:      ' + document.getElementById('wz-hire-to').value + ' at ' + document.getElementById('wz-hire-to-time').value + '\n';
+    rows.push('<b>Pickup location:</b> ' + document.getElementById('wz-hire-pickup').value);
+    rows.push('<b>Return location:</b> ' + document.getElementById('wz-hire-return').value);
+    rows.push('<b>From:</b> ' + document.getElementById('wz-hire-from').value + ' at ' + document.getElementById('wz-hire-from-time').value);
+    rows.push('<b>To:</b> ' + document.getElementById('wz-hire-to').value + ' at ' + document.getElementById('wz-hire-to-time').value);
     var age = document.getElementById('wz-hire-age').value;
-    if (age) body += 'Age:     ' + age + '\n';
+    if (age) rows.push('<b>Driver age:</b> ' + age);
     var notes = document.getElementById('wz-hire-notes').value;
-    if (notes) body += 'Notes:   ' + notes + '\n';
+    if (notes) rows.push('<b>Notes:</b> ' + notes);
   } else if (svc === 'transfer') {
-    body += 'From:    ' + document.getElementById('wz-tr-pickup').value + '\n';
-    body += 'To:      ' + document.getElementById('wz-tr-return').value + '\n';
-    body += 'Date:    ' + document.getElementById('wz-tr-date').value + ' at ' + document.getElementById('wz-tr-time').value + '\n';
-    body += 'Pax:     ' + document.getElementById('wz-tr-pax').value + '\n';
+    rows.push('<b>From:</b> ' + document.getElementById('wz-tr-pickup').value);
+    rows.push('<b>To:</b> ' + document.getElementById('wz-tr-return').value);
+    rows.push('<b>Date:</b> ' + document.getElementById('wz-tr-date').value + ' at ' + document.getElementById('wz-tr-time').value);
+    rows.push('<b>Passengers:</b> ' + document.getElementById('wz-tr-pax').value);
     var tnotes = document.getElementById('wz-tr-notes').value;
-    if (tnotes) body += 'Notes:   ' + tnotes + '\n';
+    if (tnotes) rows.push('<b>Notes:</b> ' + tnotes);
   } else if (svc === 'tour') {
-    body += 'Tour:    ' + document.getElementById('wz-tour-type').value + '\n';
-    body += 'Pickup:  ' + document.getElementById('wz-tour-pickup').value + '\n';
-    body += 'Date:    ' + document.getElementById('wz-tour-date').value + ' at ' + document.getElementById('wz-tour-time').value + '\n';
-    body += 'Pax:     ' + document.getElementById('wz-tour-pax').value + '\n';
+    rows.push('<b>Tour type:</b> ' + document.getElementById('wz-tour-type').value);
+    rows.push('<b>Pickup:</b> ' + document.getElementById('wz-tour-pickup').value);
+    rows.push('<b>Date:</b> ' + document.getElementById('wz-tour-date').value + ' at ' + document.getElementById('wz-tour-time').value);
+    rows.push('<b>Passengers:</b> ' + document.getElementById('wz-tour-pax').value);
     var ournotes = document.getElementById('wz-tour-notes').value;
-    if (ournotes) body += 'Notes:   ' + ournotes + '\n';
+    if (ournotes) rows.push('<b>Notes:</b> ' + ournotes);
   }
 
-  body += '\nInsurance: ' + WZ.insurance.name + ' (' + WZ.insurance.price + ')\n';
+  rows.push('<b>Insurance:</b> ' + WZ.insurance.name + ' (' + WZ.insurance.price + ')');
   if (WZ.additions.length) {
-    body += 'Additions: ' + WZ.additions.map(function(a){ return a.name + ' (' + a.price + ')'; }).join(', ') + '\n';
+    rows.push('<b>Extras:</b> ' + WZ.additions.map(function(a){ return a.name + ' (' + a.price + ')'; }).join(', '));
   }
   var fnotes = document.getElementById('wz-final-notes').value;
-  if (fnotes) body += '\nAdditional notes: ' + fnotes + '\n';
+  if (fnotes) rows.push('<b>Additional notes:</b> ' + fnotes);
 
-  // Open mailto (visible address for reference)
-  var mailto = 'mailto:info@quantumcarhire.com'
-    + '?subject=' + encodeURIComponent('Reservation Request — ' + (WZ.vehicleName || (svc==='hire'?'Car Hire':svc==='transfer'?'Transfer':'Tour')) + ' — ' + name)
-    + '&body=' + encodeURIComponent(body);
-  window.location.href = mailto;
+  var htmlBody = '<div style="font-family:sans-serif;font-size:15px;line-height:1.9;color:#1B2B6B;">'
+    + '<h2 style="color:#1B2B6B;border-bottom:2px solid #B8962E;padding-bottom:8px;margin-bottom:16px;">New Reservation Request — Quantum Car Hire</h2>'
+    + rows.join('<br>') + '</div>';
 
-  // Show success state
-  var submitBtn = document.getElementById('wzSubmitBtn');
-  var successDiv = document.getElementById('wzSuccess');
-  if (submitBtn) submitBtn.style.display = 'none';
-  if (successDiv) successDiv.style.display = 'block';
+  try {
+    var res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer re_iGWheAwo_AeWqKduFatdtJic5LvcxGsyU',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: 'Quantum Car Hire <onboarding@resend.dev>',
+        to: ['info@quantumcarhire.com'],
+        reply_to: email,
+        subject: 'Reservation Request — ' + (WZ.vehicleName || (svc==='hire'?'Car Hire':svc==='transfer'?'Transfer':'Tour')) + ' — ' + name,
+        html: htmlBody
+      })
+    });
 
-  // Update step bar to all done
-  document.querySelectorAll('.wz-step').forEach(function(el){ el.classList.remove('wz-active'); el.classList.add('wz-done'); });
+    if (res.ok) {
+      // Show success state
+      var successDiv = document.getElementById('wzSuccess');
+      if (submitBtn) submitBtn.style.display = 'none';
+      if (successDiv) successDiv.style.display = 'block';
+      // Update step bar to all done
+      document.querySelectorAll('.wz-step').forEach(function(el){ el.classList.remove('wz-active'); el.classList.add('wz-done'); });
+    } else {
+      var errData = await res.json().catch(function(){ return {}; });
+      throw new Error(errData.message || ('HTTP ' + res.status));
+    }
+  } catch(err) {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg> Try Again';
+    }
+    // Show inline error without navigating away
+    var successDiv = document.getElementById('wzSuccess');
+    if (successDiv) {
+      successDiv.style.display = 'block';
+      successDiv.innerHTML = '<div style="text-align:center;padding:30px 16px;">'
+        + '<div style="width:56px;height:56px;border-radius:50%;background:rgba(220,38,38,0.12);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">'
+        + '<svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#dc2626;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></div>'
+        + '<h3 style="color:#dc2626;font-family:Cormorant Garamond,serif;font-size:22px;margin-bottom:8px;">Could not send</h3>'
+        + '<p style="font-size:13px;color:rgba(255,255,255,0.6);max-width:320px;margin:0 auto;">Please email us directly at <a href="mailto:info@quantumcarhire.com" style="color:#D4AF50;">info@quantumcarhire.com</a> or call us — we're happy to help.</p>'
+        + '</div>';
+      successDiv.style.display = 'block';
+    }
+    console.error('Resend error:', err);
+  }
 }
 
 // Init: set today as min date on hire fields
@@ -4038,6 +4130,141 @@ async function submitEnquiry(e) {
 
   function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 })();
+
+/* ── CUSTOM LOCATION DROPDOWN ── */
+(function(){
+  var LOCS = [
+    { cat:'airport', label:'Airport',   name:'Seychelles International Airport (SEZ)' },
+    { cat:'other',   label:'Ferry/Port', name:'Victoria Harbour / Inter-Island Quay' },
+    { cat:'other',   label:'Town',       name:'Victoria (town centre)' },
+    { cat:'other',   label:'Area',       name:'Perseverance' },
+    { cat:'other',   label:'Area',       name:'Glacis' },
+    { cat:'other',   label:'Area',       name:'Anse Royale' },
+    { cat:'other',   label:'Area',       name:'Grand Anse Mahé' },
+    { cat:'other',   label:'Area',       name:'Takamaka' },
+    { cat:'other',   label:'Area',       name:'Port Launay' },
+    { cat:'other',   label:'Beach',      name:'Anse Soleil' },
+    { cat:'other',   label:'Beach',      name:'Anse Intendance' },
+    { cat:'other',   label:'Beach',      name:'Beau Vallon Beach' },
+    { cat:'other',   label:'Marina',     name:'Eden Island Marina' },
+    { cat:'hotel',   label:'Hotel',      name:'Four Seasons Resort Seychelles' },
+    { cat:'hotel',   label:'Hotel',      name:'Maia Luxury Resort & Spa' },
+    { cat:'hotel',   label:'Hotel',      name:'Kempinski Seychelles Resort (Baie Lazare)' },
+    { cat:'hotel',   label:'Hotel',      name:'Raffles Seychelles (Praslin — ferry connection)' },
+    { cat:'hotel',   label:'Lodge',      name:'North Island Lodge' },
+    { cat:'hotel',   label:'Hotel',      name:'Hilton Seychelles Northolme Resort & Spa' },
+    { cat:'hotel',   label:'Hotel',      name:'Savoy Resort & Spa (Beau Vallon)' },
+    { cat:'hotel',   label:'Hotel',      name:'Constance Ephelia Resort' },
+    { cat:'hotel',   label:'Hotel',      name:'Le Meridien Fisherman\'s Cove' },
+    { cat:'hotel',   label:'Hotel',      name:'Berjaya Beau Vallon Bay Resort' },
+    { cat:'hotel',   label:'Hotel',      name:'Carana Beach Hotel' },
+    { cat:'hotel',   label:'Hotel',      name:'Coral Strand Smart Choice Hotel' },
+    { cat:'hotel',   label:'Hotel',      name:'Fisherman\'s Cove Resort' },
+    { cat:'hotel',   label:'Hotel',      name:'Sunset Beach Hotel (Glacis)' },
+    { cat:'hotel',   label:'Hotel',      name:'Bliss Hotel Seychelles' },
+    { cat:'villa',   label:'Villa',      name:'L\'Archipel' },
+    { cat:'villa',   label:'Villa',      name:'Anse Soleil Beachcomber' },
+    { cat:'villa',   label:'Villa',      name:'Cerf Island Resort' },
+    { cat:'villa',   label:'Villa',      name:'Blue Lagoon Chalets' },
+    { cat:'other',   label:'Ferry',      name:'La Digue Island Lodge (ferry)' }
+  ];
+
+  var CAT_ORDER = ['airport','hotel','villa','other'];
+  var CAT_LABELS = { airport:'Airport', hotel:'Hotels', villa:'Villas', other:'Other Locations' };
+  var CAT_ICONS = {
+    airport: '<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>',
+    hotel:   '<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>',
+    villa:   '<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>',
+    other:   '<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>'
+  };
+  var CAT_COLORS = { airport:'#1B2B6B', hotel:'#B8962E', villa:'#166032', other:'#5A6480' };
+
+  var activeDropdown = null;
+
+  function buildList(which, filter) {
+    var listEl = document.getElementById('qf' + (which==='pickup'?'Pickup':'Return') + 'List');
+    if (!listEl) return;
+    filter = (filter||'').trim().toLowerCase();
+    var grouped = {};
+    LOCS.forEach(function(loc) {
+      if (!filter || loc.name.toLowerCase().indexOf(filter) !== -1 || loc.label.toLowerCase().indexOf(filter) !== -1) {
+        if (!grouped[loc.cat]) grouped[loc.cat] = [];
+        grouped[loc.cat].push(loc);
+      }
+    });
+    var html = '';
+    var total = 0;
+    CAT_ORDER.forEach(function(cat) {
+      if (!grouped[cat] || !grouped[cat].length) return;
+      html += '<div class="qloc-group-label" style="color:'+CAT_COLORS[cat]+'">'+CAT_ICONS[cat]+' '+CAT_LABELS[cat]+'</div>';
+      grouped[cat].forEach(function(loc) {
+        html += '<div class="qloc-opt" data-value="'+escHtml(loc.name)+'" onclick="qlocSelect(\''+which+'\',this)" tabindex="0">';
+        html += '<span class="qloc-opt-icon '+loc.cat+'" style="color:'+CAT_COLORS[loc.cat]+'">'+CAT_ICONS[loc.cat]+'</span>';
+        html += '<span class="qloc-opt-text"><span style="font-weight:600;">'+escHtml(loc.name)+'</span>';
+        html += '<br><span class="qloc-opt-cat">'+loc.label+'</span></span></div>';
+        total++;
+      });
+    });
+    if (!total) html = '<div class="qloc-no-results">No matching locations</div>';
+    listEl.innerHTML = html;
+  }
+
+  function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  window.qlocOpen = function(which) {
+    var drop = document.getElementById('qf'+(which==='pickup'?'Pickup':'Return')+'Drop');
+    var search = document.getElementById('qf'+(which==='pickup'?'Pickup':'Return')+'Search');
+    if (!drop) return;
+    // Close other
+    if (activeDropdown && activeDropdown !== drop) activeDropdown.classList.remove('open');
+    drop.classList.toggle('open');
+    if (drop.classList.contains('open')) {
+      activeDropdown = drop;
+      buildList(which, '');
+      if (search) { search.value = ''; search.focus(); }
+    }
+  };
+
+  window.qlocFilter = function(which, val) {
+    var drop = document.getElementById('qf'+(which==='pickup'?'Pickup':'Return')+'Drop');
+    if (drop && !drop.classList.contains('open')) { drop.classList.add('open'); activeDropdown = drop; }
+    buildList(which, val);
+  };
+
+  window.qlocSelect = function(which, el) {
+    var val = el.getAttribute('data-value');
+    var inp = document.getElementById('qf'+(which==='pickup'?'Pickup':'Return')+'Loc');
+    var hidden = document.getElementById('qf'+(which==='pickup'?'Pickup':'Return')+'LocVal');
+    if (inp) inp.value = val;
+    if (hidden) hidden.value = val;
+    var drop = document.getElementById('qf'+(which==='pickup'?'Pickup':'Return')+'Drop');
+    if (drop) drop.classList.remove('open');
+    activeDropdown = null;
+  };
+
+  // Close on outside click
+  document.addEventListener('click', function(e) {
+    if (!activeDropdown) return;
+    var wrap = activeDropdown.closest('.qloc-wrap');
+    if (wrap && !wrap.contains(e.target)) {
+      activeDropdown.classList.remove('open');
+      activeDropdown = null;
+    }
+  });
+
+  // Make the visible input also clickable to open
+  document.addEventListener('DOMContentLoaded', function() {
+    ['pickup','return'].forEach(function(which) {
+      var inp = document.getElementById('qf'+(which==='pickup'?'Pickup':'Return')+'Loc');
+      if (!inp) return;
+      inp.removeAttribute('readonly');
+      inp.addEventListener('input', function() { qlocFilter(which, this.value); });
+      inp.addEventListener('focus', function() { qlocOpen(which); });
+    });
+  });
+})();
+</script>
+<script>
 </script>
 
 
