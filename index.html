@@ -102,10 +102,10 @@ button { cursor: pointer; font-family: inherit; }
 .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5.5vw, 68px); font-weight: 700; line-height: 1.06; color: #fff; text-wrap: balance; margin-bottom: 22px; }
 .hero h1 em { font-style: italic; background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .hero-sub { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.72); line-height: 1.7; max-width: 450px; margin-bottom: 34px; }
-.hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+.hero-badges { display: flex; flex-wrap: nowrap; gap: 10px; margin-bottom: 32px; align-items: center; }
 .badge { display: flex; align-items: center; gap: 7px; background: rgba(255,255,255,0.08); border: 1px solid rgba(184,150,46,0.30); border-radius: 100px; padding: 6px 16px; font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.85); }
 .badge svg { width: 13px; height: 13px; fill: var(--gold-l); flex-shrink: 0; }
-.hero-btn-group { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-btn-group { display: flex; flex-wrap: nowrap; gap: 12px; align-items: center; }
 .btn-primary { background: var(--gold-grad); color: var(--navy-d); border: none; border-radius: var(--radius); padding: 14px 30px; font-size: 14px; font-weight: 700; letter-spacing: 0.03em; transition: opacity 0.2s, transform 0.1s; display: inline-flex; align-items: center; gap: 8px; }
 .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
 .btn-outline { background: transparent; color: #fff; border: 1.5px solid rgba(184,150,46,0.45); border-radius: var(--radius); padding: 14px 30px; font-size: 14px; font-weight: 600; transition: border-color 0.2s, background 0.2s; display: inline-flex; align-items: center; gap: 8px; }
@@ -114,7 +114,7 @@ button { cursor: pointer; font-family: inherit; }
 /* ═══════════════════════════════
    BOOKING WIZARD
 ═══════════════════════════════ */
-.booking-section { display: block; position: relative; z-index: 10; margin-top: -60px; padding: 0 40px 40px; background: #0d1640; }
+.booking-section { display: block; position: relative; z-index: 10; margin-top: -60px; padding: 0 40px 0; }
 .booking-section.wz-visible { display: block; }
 .booking-card { background: var(--bg); border-radius: var(--radius-l); box-shadow: var(--shadow-l); max-width: 1100px; margin: 0 auto; border: 1px solid var(--border); border-top: 3px solid var(--gold); overflow: hidden; }
 
@@ -287,7 +287,7 @@ button { cursor: pointer; font-family: inherit; }
 .wz-success p { font-size: 14px; color: var(--text-2); max-width: 360px; margin: 0 auto; }
 
 @media (max-width: 700px) {
-  .booking-section { padding: 0 16px 40px; background: #0d1640; }
+  .booking-section { padding: 0 16px; }
   .wz-fleet-grid { grid-template-columns: 1fr; }
   .wz-add-grid { grid-template-columns: 1fr; }
   .wz-fields-grid { grid-template-columns: 1fr; }
@@ -341,7 +341,7 @@ button { cursor: pointer; font-family: inherit; }
 .stat-desc span { font-size: 13px; color: rgba(255,255,255,0.50); }
 
 /* OFFERS CAROUSEL */
-.offers-section { background: var(--bg-alt); padding: 72px 0; margin: 0; }
+.offers-section { background: linear-gradient(155deg, var(--navy-d) 0%, var(--navy) 100%); padding: 72px 0; margin: 0; }
 .offers-carousel-wrap { position: relative; }
 .offers-carousel { overflow: hidden; }
 .offers-track { display: flex; gap: 24px; transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
@@ -397,7 +397,7 @@ button { cursor: pointer; font-family: inherit; }
 .carousel-counter { text-align: center; font-size: 12px; color: var(--text-2); margin-top: 10px; letter-spacing: 0.06em; }
 
 /* REVIEWS CAROUSEL */
-.reviews-section { background: var(--bg); }
+.reviews-section { background: linear-gradient(155deg, var(--navy-d) 0%, var(--navy) 100%); }
 .rv-carousel { position: relative; max-width: 720px; margin: 0 auto; text-align: center; padding: 0 10px; }
 /* Decorative quote mark */
 .rv-quote-mark { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 160px; line-height: 0.8; color: var(--gold); opacity: 0.18; pointer-events: none; user-select: none; margin-bottom: -30px; }
@@ -559,7 +559,7 @@ footer.footer-v2 { background: #0d1117; color: rgba(255,255,255,0.55); padding: 
   .hero-banner { display: block !important; position: absolute; inset: 0; }
   .hero-banner img { object-position: 65% center; }
   .hero-banner::before { background: linear-gradient(to right, rgba(8,13,45,0.95) 0%, rgba(8,13,45,0.80) 45%, rgba(8,13,45,0.20) 75%, transparent 100%); }
-  .booking-section { padding: 0 16px 40px; background: #0d1640; }
+  .booking-section { padding: 0 16px; }
   .booking-card { padding: 20px 16px; }
   .booking-grid { grid-template-columns: 1fr; }
   .section { padding: 72px 0; }
@@ -653,7 +653,7 @@ h1 em, h2 em, h3 em {
 
 /* FAQ CATEGORY TABS */
 .faq-tabs-wrap{max-width:780px;margin:0 auto;}
-.faq-cat-tabs{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
+.faq-cat-tabs{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;justify-content:center;}
 .faq-cat-btn{display:flex;align-items:center;gap:8px;padding:12px 24px;border-radius:var(--radius);border:1.5px solid rgba(184,150,46,0.25);background:var(--bg-alt);color:var(--text-2);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;}
 .faq-cat-btn:hover{border-color:var(--gold);color:var(--gold-l);}
 .faq-cat-btn.active{background:var(--navy);border-color:var(--gold);color:var(--gold-l);}
@@ -840,13 +840,15 @@ h1 em, h2 em, h3 em {
 #why { padding: 80px 40px; background: linear-gradient(160deg,#1a2a5e 0%,#1B2B6B 60%,#162259 100%); }
 #why .section-label { color: var(--gold-l); }
 #why .section-title { color: #fff; }
+#why .section-title em { background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-style: italic; }
 #why .section-sub { color: rgba(255,255,255,0.65); }
 #why .section-header { text-align: center; margin-bottom: 48px; }
 #why .faq-tabs-wrap { max-width: 780px; margin: 0 auto; }
+#why .faq-item { background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.12) !important; }
 #why .faq-cat-btn { background: rgba(255,255,255,0.06); border-color: rgba(184,150,46,0.35); color: rgba(255,255,255,0.75); }
 #why .faq-cat-btn:hover { border-color: var(--gold-l); color: var(--gold-l); background: rgba(255,255,255,0.10); }
 #why .faq-cat-btn.active { background: rgba(27,43,107,0.8); border-color: var(--gold-l); color: var(--gold-l); box-shadow: 0 6px 24px rgba(0,0,0,0.25); }
-#why .faq-cat-panel .faq-item { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
+#why .faq-cat-panel .faq-item { border-color: rgba(255,255,255,0.12) !important; background: rgba(255,255,255,0.04) !important; }
 #why .faq-cat-panel .faq-q { color: #fff; }
 #why .faq-cat-panel .faq-a { color: rgba(255,255,255,0.65); }
 #why .faq-cat-panel .faq-icon { color: var(--gold-l); }
@@ -1011,7 +1013,7 @@ h1 em, h2 em, h3 em {
   .hero-scene { display: none; }
 
   /* BOOKING SECTION */
-  .booking-section { padding: 0 12px 32px; margin-top: -20px; background: #0d1640; }
+  .booking-section { padding: 0 12px; margin-top: -20px; }
   .booking-card { padding: 16px 12px 20px; border-radius: 14px; }
   .booking-card .qf-tabs { gap: 0; }
   .booking-card .qf-tab { padding: 12px 14px 10px; font-size: 12px; }
@@ -1068,13 +1070,13 @@ h1 em, h2 em, h3 em {
 
   /* FAQ / HOW IT WORKS — navy bg on mobile */
   .faq-section { background: linear-gradient(155deg, var(--navy-d) 0%, var(--navy) 100%) !important; color: #fff; position: relative; overflow: hidden; }
-  .faq-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 20%, rgba(184,150,46,0.18) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+  
   .faq-section .section-inner { position: relative; z-index: 1; }
   .faq-section .section-title { color: #fff !important; }
   .faq-section .section-label { color: var(--gold-l) !important; }
   .faq-cat-btn { background: rgba(255,255,255,0.07); border-color: rgba(184,150,46,0.30); color: rgba(255,255,255,0.80); }
   .faq-cat-btn.active { background: rgba(27,43,107,0.7); border-color: var(--gold); color: var(--gold-l); }
-  .faq-cat-panel .faq-item { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.10); }
+  .faq-cat-panel .faq-item { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.10) !important; }
   .faq-cat-panel .faq-q { color: #fff; }
   .faq-cat-panel .faq-a { color: rgba(255,255,255,0.75); border-top-color: rgba(255,255,255,0.10); }
   .atg-2col-item { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.10); }
@@ -1136,7 +1138,7 @@ h1 em, h2 em, h3 em {
   .hero-banner::before { background: linear-gradient(to right, rgba(8,13,45,0.95) 0%, rgba(8,13,45,0.85) 38%, rgba(8,13,45,0.30) 60%, transparent 78%); }
 
   /* LAYOUT */
-  .booking-section { padding: 0 24px 40px; background: #0d1640; }
+  .booking-section { padding: 0 24px; }
   .booking-grid { grid-template-columns: 1fr 1fr; }
   .fleet-grid { grid-template-columns: repeat(2, 1fr); }
   .why-features { grid-template-columns: 1fr 1fr; }
@@ -1146,13 +1148,13 @@ h1 em, h2 em, h3 em {
 
   /* FAQ / HOW IT WORKS — navy bg on tablet */
   .faq-section { background: linear-gradient(155deg, var(--navy-d) 0%, var(--navy) 100%) !important; color: #fff; position: relative; overflow: hidden; }
-  .faq-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 25%, rgba(184,150,46,0.15) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+  
   .faq-section .section-inner { position: relative; z-index: 1; }
   .faq-section .section-title { color: #fff !important; }
   .faq-section .section-label { color: var(--gold-l) !important; }
   .faq-cat-btn { background: rgba(255,255,255,0.07); border-color: rgba(184,150,46,0.30); color: rgba(255,255,255,0.80); }
   .faq-cat-btn.active { background: rgba(27,43,107,0.7); border-color: var(--gold); color: var(--gold-l); }
-  .faq-cat-panel .faq-item { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.10); }
+  .faq-cat-panel .faq-item { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.10) !important; }
   .faq-cat-panel .faq-q { color: #fff; }
   .faq-cat-panel .faq-a { color: rgba(255,255,255,0.75); border-top-color: rgba(255,255,255,0.10); }
   .atg-2col-item { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.10); }
@@ -1295,9 +1297,9 @@ select.wz-input:focus {
 .section-divider-wave { display: block; line-height: 0; margin: 0; padding: 28px 0; overflow: visible; background: linear-gradient(155deg, var(--navy-d) 0%, var(--navy) 100%); position: relative; z-index: 2; }
 .section-divider-wave svg { display: block; width: 100%; overflow: visible; }
 
-/* Special Deals section-header left-align */
+/* Special Deals section-header — centred */
 #offers .section-header {
-  text-align: left;
+  text-align: center;
   margin-bottom: 28px;
 }
 #offers .section-label {
@@ -1468,9 +1470,10 @@ select.wz-input:focus {
         <div id="qfAgeWrap">
           <div style="font-size:10px;font-weight:800;color:#1B2B6B;letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px;">Driver's Age</div>
           <select id="qfDriverAge" style="width:100%;border:none;background:transparent;font-size:14px;font-weight:600;color:#1a1a2e;outline:none;cursor:pointer;font-family:'Inter',sans-serif;-webkit-appearance:none;appearance:none;">
-            <option value="21-70">21 – 70</option>
-            <option value="18-20">18 – 20 (young driver)</option>
-            <option value="71+">71+ (senior driver)</option>
+            <option value="21-24">21 – 24 years</option>
+            <option value="25-29">25 – 29 years</option>
+            <option value="30-64" selected>30 – 64 years</option>
+            <option value="65+">65+ years</option>
           </select>
         </div>
         <!-- Passengers shown for Transfer & Tour tabs -->
@@ -2002,23 +2005,28 @@ select.wz-input:focus {
 <div aria-hidden="true" style="display:block;line-height:0;margin:0;padding:0;overflow:hidden;position:relative;z-index:2;">
   <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:60px;width:100%;display:block;">
     <defs>
-      <linearGradient id="divGoldBF2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <linearGradient id="divGoldBF" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%"   stop-color="#B8962E" stop-opacity="0"/>
         <stop offset="20%"  stop-color="#D4AF50" stop-opacity="0.8"/>
         <stop offset="50%"  stop-color="#f0d070" stop-opacity="1"/>
         <stop offset="80%"  stop-color="#D4AF50" stop-opacity="0.8"/>
         <stop offset="100%" stop-color="#B8962E" stop-opacity="0"/>
       </linearGradient>
+      <linearGradient id="divFleetNavyBF" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#1a2a5e"/>
+        <stop offset="55%"  stop-color="#1B2B6B"/>
+        <stop offset="100%" stop-color="#162259"/>
+      </linearGradient>
     </defs>
-    <!-- top colour block -->
+    <!-- top half: reservation/hero dark blue -->
     <rect x="0" y="0" width="1440" height="30" fill="#0d1640"/>
-    <!-- bottom colour block -->
-    <rect x="0" y="30" width="1440" height="30" fill="#1a2a5e"/>
-    <!-- gold wave — centred at y=30 -->
+    <!-- bottom half: fleet navy gradient -->
+    <rect x="0" y="30" width="1440" height="30" fill="url(#divFleetNavyBF)"/>
+    <!-- gold wave at y=30 -->
     <path d="M0,30 C240,22 480,38 720,29 C960,20 1200,36 1440,27"
-          fill="none" stroke="url(#divGoldBF2)" stroke-width="10" opacity="0.13"/>
+          fill="none" stroke="url(#divGoldBF)" stroke-width="10" opacity="0.13"/>
     <path d="M0,30 C240,22 480,38 720,29 C960,20 1200,36 1440,27"
-          fill="none" stroke="url(#divGoldBF2)" stroke-width="1.5" opacity="1"/>
+          fill="none" stroke="url(#divGoldBF)" stroke-width="1.5" opacity="1"/>
   </svg>
 </div>
 <!-- FLEET -->
@@ -2038,6 +2046,25 @@ select.wz-input:focus {
   </div>
 </section>
 
+<!-- <!-- TRANSITION: Fleet → Special Deals — gold line -->
+<div aria-hidden="true" style="display:block;line-height:0;margin:0;padding:0;overflow:hidden;position:relative;z-index:2;background:linear-gradient(to bottom,#1B2B6B 0%,#0F1A44 100%);">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:60px;width:100%;display:block;">
+    <defs>
+      <linearGradient id="divGoldFleetOffer" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#B8962E" stop-opacity="0"/>
+        <stop offset="20%"  stop-color="#D4AF50" stop-opacity="0.8"/>
+        <stop offset="50%"  stop-color="#f0d070" stop-opacity="1"/>
+        <stop offset="80%"  stop-color="#D4AF50" stop-opacity="0.8"/>
+        <stop offset="100%" stop-color="#B8962E" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <!-- gold wave -->
+    <path d="M0,30 C240,22 480,38 720,29 C960,20 1200,36 1440,27"
+          fill="none" stroke="url(#divGoldFleetOffer)" stroke-width="10" opacity="0.13"/>
+    <path d="M0,30 C240,22 480,38 720,29 C960,20 1200,36 1440,27"
+          fill="none" stroke="url(#divGoldFleetOffer)" stroke-width="1.5" opacity="1"/>
+  </svg>
+</div>
 
 <!-- OFFERS -->
 <section class="section offers-section" id="offers">
@@ -2219,8 +2246,8 @@ select.wz-input:focus {
 </section>
 
 <!-- TRANSITION: Offers → FAQ — gold line -->
-<div class="section-divider-wave" aria-hidden="true" style="background:linear-gradient(155deg,var(--navy-d) 0%,var(--navy) 100%);">
-  <svg viewBox="0 0 1440 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:20px;width:100%;display:block;">
+<div aria-hidden="true" style="display:block;line-height:0;margin:0;padding:0;overflow:hidden;position:relative;z-index:2;background:#1B2B6B;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:60px;width:100%;display:block;">
     <defs>
       <linearGradient id="divGoldOF" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%"   stop-color="#B8962E" stop-opacity="0"/>
@@ -2230,10 +2257,11 @@ select.wz-input:focus {
         <stop offset="100%" stop-color="#B8962E" stop-opacity="0"/>
       </linearGradient>
     </defs>
-    <path d="M0,10 C240,2 480,18 720,9 C960,0 1200,16 1440,7"
-          fill="none" stroke="url(#divGoldOF)" stroke-width="6" opacity="0.13"/>
-    <path d="M0,10 C240,2 480,18 720,9 C960,0 1200,16 1440,7"
-          fill="none" stroke="url(#divGoldOF)" stroke-width="1.2" opacity="1"/>
+    <!-- gold wave -->
+    <path d="M0,30 C240,22 480,38 720,29 C960,20 1200,36 1440,27"
+          fill="none" stroke="url(#divGoldOF)" stroke-width="10" opacity="0.13"/>
+    <path d="M0,30 C240,22 480,38 720,29 C960,20 1200,36 1440,27"
+          fill="none" stroke="url(#divGoldOF)" stroke-width="1.5" opacity="1"/>
   </svg>
 </div>
 
@@ -2447,11 +2475,11 @@ select.wz-input:focus {
   </div>
 </section>
 
-<!-- TRANSITION: FAQ → Reviews — gold line only, no background -->
-<div class="section-divider-wave" aria-hidden="true">
-  <svg viewBox="0 0 1440 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:20px;width:100%;display:block;">
+<!-- <!-- TRANSITION: FAQ → Reviews — gold line -->
+<div aria-hidden="true" style="display:block;line-height:0;margin:0;padding:0;overflow:hidden;position:relative;z-index:2;background:#1B2B6B;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:60px;width:100%;display:block;">
     <defs>
-      <linearGradient id="divGold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <linearGradient id="divGoldFR" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%"   stop-color="#B8962E" stop-opacity="0"/>
         <stop offset="20%"  stop-color="#D4AF50" stop-opacity="0.8"/>
         <stop offset="50%"  stop-color="#f0d070" stop-opacity="1"/>
@@ -2459,12 +2487,10 @@ select.wz-input:focus {
         <stop offset="100%" stop-color="#B8962E" stop-opacity="0"/>
       </linearGradient>
     </defs>
-    <!-- soft glow halo -->
-    <path d="M0,10 C240,2 480,18 720,9 C960,0 1200,16 1440,7"
-          fill="none" stroke="url(#divGold)" stroke-width="6" opacity="0.13"/>
-    <!-- gold line -->
-    <path d="M0,10 C240,2 480,18 720,9 C960,0 1200,16 1440,7"
-          fill="none" stroke="url(#divGold)" stroke-width="1.2" opacity="1"/>
+    <path d="M0,30 C240,22 480,38 720,29 C960,20 1200,36 1440,27"
+          fill="none" stroke="url(#divGoldFR)" stroke-width="10" opacity="0.13"/>
+    <path d="M0,30 C240,22 480,38 720,29 C960,20 1200,36 1440,27"
+          fill="none" stroke="url(#divGoldFR)" stroke-width="1.5" opacity="1"/>
   </svg>
 </div>
 
@@ -2506,6 +2532,25 @@ select.wz-input:focus {
     </div>
   </div>
 </section>
+
+<!-- <!-- TRANSITION: Reviews → Contact — gold line -->
+<div aria-hidden="true" style="display:block;line-height:0;margin:0;padding:0;overflow:hidden;position:relative;z-index:2;background:#1B2B6B;">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:60px;width:100%;display:block;">
+    <defs>
+      <linearGradient id="divGoldRC" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#B8962E" stop-opacity="0"/>
+        <stop offset="20%"  stop-color="#D4AF50" stop-opacity="0.8"/>
+        <stop offset="50%"  stop-color="#f0d070" stop-opacity="1"/>
+        <stop offset="80%"  stop-color="#D4AF50" stop-opacity="0.8"/>
+        <stop offset="100%" stop-color="#B8962E" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,30 C240,22 480,38 720,29 C960,20 1200,36 1440,27"
+          fill="none" stroke="url(#divGoldRC)" stroke-width="10" opacity="0.13"/>
+    <path d="M0,30 C240,22 480,38 720,29 C960,20 1200,36 1440,27"
+          fill="none" stroke="url(#divGoldRC)" stroke-width="1.5" opacity="1"/>
+  </svg>
+</div>
 
 <section class="contact-section" id="contact">
   <div class="contact-inner">
@@ -3697,7 +3742,7 @@ async function wzSubmit() {
         + '<div style="width:56px;height:56px;border-radius:50%;background:rgba(220,38,38,0.12);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">'
         + '<svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#dc2626;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></div>'
         + '<h3 style="color:#dc2626;font-family:Cormorant Garamond,serif;font-size:22px;margin-bottom:8px;">Could not send</h3>'
-        + '<p style="font-size:13px;color:rgba(255,255,255,0.6);max-width:320px;margin:0 auto;">Please email us directly at <a href="mailto:info@quantumcarhire.com" style="color:#D4AF50;">info@quantumcarhire.com</a> or call us — we're happy to help.</p>'
+        + '<p style="font-size:13px;color:rgba(255,255,255,0.6);max-width:320px;margin:0 auto;">Please email us directly at <a href="mailto:info@quantumcarhire.com" style="color:#D4AF50;">info@quantumcarhire.com</a> or call us — we\'re happy to help.</p>'
         + '</div>';
       successDiv.style.display = 'block';
     }
