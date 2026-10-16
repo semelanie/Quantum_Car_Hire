@@ -4351,31 +4351,54 @@ async function submitEnquiry(e) {
     return p[2] + '/' + p[1] + '/' + p[0];
   }
 
+  // Helper: restore a date input to its hidden state
+  function hideDateEl(dateEl) {
+    dateEl.style.position = 'absolute';
+    dateEl.style.opacity  = '0';
+    dateEl.style.width    = '1px';
+    dateEl.style.height   = '1px';
+    dateEl.style.pointerEvents = 'none';
+    dateEl.style.top      = '0';
+    dateEl.style.left     = '0';
+  }
+
   // Open the native date picker for the given key
   window.qfDateOpen = function(key) {
     var ids = DISP_MAP[key];
     if (!ids) return;
     var dateEl = document.getElementById(ids.date);
     if (!dateEl) return;
-    // Temporarily make native input visible and interactive
-    dateEl.style.position = 'static';
-    dateEl.style.opacity = '1';
-    dateEl.style.width = '0';
-    dateEl.style.height = '0';
+
+    // Re-hide any previously opened picker
+    Object.keys(DISP_MAP).forEach(function(k) {
+      var el = document.getElementById(DISP_MAP[k].date);
+      if (el && el !== dateEl) hideDateEl(el);
+    });
+
+    // Make the hidden input briefly visible so the browser can open its picker
+    dateEl.style.position     = 'fixed';
+    dateEl.style.opacity      = '0';          // invisible but interactive
+    dateEl.style.width        = '1px';
+    dateEl.style.height       = '1px';
+    dateEl.style.top          = '50%';
+    dateEl.style.left         = '50%';
     dateEl.style.pointerEvents = 'auto';
+    dateEl.style.zIndex       = '9999';
+
+    // Re-hide only after the picker is dismissed (blur fires when user closes it)
+    function onBlur() {
+      dateEl.removeEventListener('blur', onBlur);
+      dateEl.removeEventListener('change', onBlur);
+      hideDateEl(dateEl);
+    }
+    dateEl.addEventListener('blur',   onBlur);
+    dateEl.addEventListener('change', onBlur);
+
     try {
       dateEl.showPicker();
     } catch(e) {
       dateEl.click();
     }
-    // Re-hide after a moment (picker stays open independently)
-    setTimeout(function() {
-      dateEl.style.position = 'absolute';
-      dateEl.style.opacity = '0';
-      dateEl.style.width = '1px';
-      dateEl.style.height = '1px';
-      dateEl.style.pointerEvents = 'none';
-    }, 300);
   };
 
   // Called when the native date input changes — sync to display field
